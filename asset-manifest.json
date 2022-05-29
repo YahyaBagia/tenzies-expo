@@ -1,0 +1,23 @@
+{
+  "files": {
+    "app.js": "/tenzies-expo/static/js/app.3c273851.chunk.js",
+    "app.js.map": "/tenzies-expo/static/js/app.3c273851.chunk.js.map",
+    "runtime~app.js": "/tenzies-expo/static/js/runtime~app.94944727.js",
+    "runtime~app.js.map": "/tenzies-expo/static/js/runtime~app.94944727.js.map",
+    "static/js/2.d4733b78.chunk.js": "/tenzies-expo/static/js/2.d4733b78.chunk.js",
+    "static/js/2.d4733b78.chunk.js.map": "/tenzies-expo/static/js/2.d4733b78.chunk.js.map",
+    "fonts/MaterialCommunityIcons.ttf": "/tenzies-expo/./fonts/MaterialCommunityIcons.ttf",
+    "favicon-16.png": "/tenzies-expo/favicon-16.png",
+    "favicon-32.png": "/tenzies-expo/favicon-32.png",
+    "favicon.ico": "/tenzies-expo/favicon.ico",
+    "index.html": "/tenzies-expo/index.html",
+    "manifest.json": "/tenzies-expo/manifest.json",
+    "serve.json": "/tenzies-expo/serve.json",
+    "static/js/2.d4733b78.chunk.js.LICENSE.txt": "/tenzies-expo/static/js/2.d4733b78.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.94944727.js",
+    "static/js/2.d4733b78.chunk.js",
+    "static/js/app.3c273851.chunk.js"
+  ]
+}
