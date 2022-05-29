@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { View, Dimensions } from "react-native";
-import { Text, Button } from "react-native-paper";
+import { Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import "react-native-get-random-values";
 import { nanoid } from "nanoid";
@@ -12,6 +12,9 @@ import { Colors } from "./common/Const";
 import Utils from "./common/Utils";
 
 const NumberOfDices = 12;
+
+//TODO: Settings Modal to be added -> Theme Selector & Number/DiceDots View
+//TODO: expo-fonts tobe integrated
 
 const Main = () => {
   const CreateANewDice = () => ({
@@ -108,6 +111,7 @@ const Main = () => {
       <View
         style={{
           justifyContent: "center",
+          width: Utils.IsOnWeb() ? undefined : "90%",
         }}
       >
         <View style={{ margin: 12 }}>
@@ -149,23 +153,21 @@ const Main = () => {
             </View>
           ))}
         </View>
-        <View
+        <TouchableRipple
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
+            borderRadius: 12,
+            backgroundColor: Colors.ButtonBG,
+            height: 60,
             marginTop: 20,
+            justifyContent: "center",
+            alignItems: "center",
           }}
+          onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
         >
-          <Button
-            onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
-            style={{ backgroundColor: "#596183", borderRadius: 12 }}
-            labelStyle={{ color: "white", fontSize: 22 }}
-            contentStyle={{ height: 50, width: 180 }}
-            uppercase={false}
-          >
+          <Text style={{ color: "white", fontSize: 30 }}>
             {CheckIfAllDicesAreTheSame() ? "New Game" : "Roll"}
-          </Button>
-        </View>
+          </Text>
+        </TouchableRipple>
       </View>
       {CheckIfAllDicesAreTheSame() && (
         <>
