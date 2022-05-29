@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 
 import Main from "./src/Main";
-import { Colors } from "./src/common/const";
+import { Colors } from "./src/common/Const";
 
 const theme = {
   ...DefaultTheme,

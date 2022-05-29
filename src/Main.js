@@ -2,14 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { View, Dimensions } from "react-native";
 import { Text, Button } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
+import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
 import Dice from "./components/Dice";
 import Timer from "./components/Timer";
-import { Colors } from "./common/const";
+
+import { Colors } from "./common/Const";
+import Utils from "./common/Utils";
 
 const NumberOfDices = 12;
-
 
 const Main = () => {
   const CreateANewDice = () => ({
@@ -75,35 +77,37 @@ const Main = () => {
     return allSelected && allSame;
   };
 
-  const diceElements = allDices.map(({ id, title, isSelected }, index) => (
-    <Dice
-      key={id}
-      title={title}
-      isSelected={isSelected}
-      onPress={() => onPressDie(allDices[index])}
-    />
-  ));
+  const GetDiceElements = () => {
+    const diceElements = allDices.map(({ id, title, isSelected }, index) => (
+      <Dice
+        key={id}
+        title={title}
+        isSelected={isSelected}
+        onPress={() => onPressDie(allDices[index])}
+      />
+    ));
 
-  const middleIndexOfDices = NumberOfDices / 2;
-  const firstHalfDices = diceElements.splice(0, middleIndexOfDices);
-  const secondHalfDices = diceElements.splice(-middleIndexOfDices);
+    let splittedArrays = [];
+    if (Utils.IsOnWeb()) {
+      splittedArrays = Utils.SplitArray(diceElements, 2);
+    } else {
+      splittedArrays = Utils.SplitArray(diceElements, 4);
+    }
+    return splittedArrays;
+  };
 
   return (
     <View
       style={{
         flex: 1,
         justifyContent: "center",
-        backgroundColor: Colors.ScreenBG,
         alignItems: "center",
+        backgroundColor: Colors.Primary,
       }}
     >
       <View
         style={{
-          backgroundColor: Colors.Primary,
-          borderRadius: 12,
           justifyContent: "center",
-          padding: 30,
-          width: "85%",
         }}
       >
         <View style={{ margin: 12 }}>
@@ -129,13 +133,13 @@ const Main = () => {
         </View>
 
         <View style={{ alignItems: "center", marginVertical: 28 }}>
-          {[firstHalfDices, secondHalfDices].map((dices, i) => (
+          {GetDiceElements().map((dices, i) => (
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-around",
                 marginVertical: 8,
-                minWidth: 400,
+                minWidth: Utils.IsOnWeb() ? 400 : "100%",
                 maxWidth: 650,
                 width: "100%",
               }}
