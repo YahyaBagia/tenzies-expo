@@ -1,16 +1,15 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { View, Dimensions } from "react-native";
 import { Text, Button } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { nanoid } from "nanoid";
 
 import Dice from "./components/Dice";
+import Timer from "./components/Timer";
 import { Colors } from "./common/const";
 
 const NumberOfDices = 12;
 
-// SHOW TIMER | START ON FIRST DICE PRESS | END ON CheckIfAllDicesAreTheSame | RESET IF NO DIE IS SELECTED
-// PREVENT SELECTING OTHER NUMBER DICE ONCE ATLEAST ONE DIE IS SELECTED
 
 const Main = () => {
   const CreateANewDice = () => ({
@@ -23,8 +22,22 @@ const Main = () => {
 
   const [allDices, setAllDices] = useState(SetNewDices());
 
+  const timerRef = useRef();
+
   const leftConfettiRef = useRef();
   const rightConfettiRef = useRef();
+
+  useEffect(() => {
+    const res = allDices.filter((die) => die.isSelected);
+    if (res.length === 0) {
+      timerRef.current.resetTimer();
+    } else if (res.length === 1) {
+      timerRef.current.startTimer();
+    } else if (CheckIfAllDicesAreTheSame()) {
+      startConfettis();
+      timerRef.current.pauseTimer();
+    }
+  }, [allDices]);
 
   const startConfettis = () => {
     leftConfettiRef.current.start();
@@ -37,12 +50,16 @@ const Main = () => {
     );
   };
 
-  const onPressNewGame = () => setAllDices(SetNewDices());
+  const onPressNewGame = () => {
+    setAllDices(SetNewDices());
+    timerRef.current.resetTimer();
+  };
 
-  const onPressDie = (id) => {
-    if (CheckIfAllDicesAreTheSame()) {
-      startConfettis();
-      return;
+  const onPressDie = ({ id, title }) => {
+    if (CheckIfAllDicesAreTheSame()) return;
+    const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
+    if (firstSelectedDice) {
+      if (title !== firstSelectedDice.title) return;
     }
     setAllDices((oldDices) =>
       oldDices.map((die) =>
@@ -58,12 +75,12 @@ const Main = () => {
     return allSelected && allSame;
   };
 
-  const diceElements = allDices.map(({ id, title, isSelected }) => (
+  const diceElements = allDices.map(({ id, title, isSelected }, index) => (
     <Dice
       key={id}
       title={title}
       isSelected={isSelected}
-      onPress={() => onPressDie(id)}
+      onPress={() => onPressDie(allDices[index])}
     />
   ));
 
@@ -106,6 +123,9 @@ const Main = () => {
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
           </Text>
+          <View style={{ margin: 12 }}>
+            <Timer ref={timerRef} />
+          </View>
         </View>
 
         <View style={{ alignItems: "center", marginVertical: 28 }}>
@@ -134,7 +154,7 @@ const Main = () => {
         >
           <Button
             onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
-            style={{ backgroundColor: "#596183" }}
+            style={{ backgroundColor: "#596183", borderRadius: 12 }}
             labelStyle={{ color: "white", fontSize: 22 }}
             contentStyle={{ height: 50, width: 180 }}
             uppercase={false}
