@@ -15,6 +15,8 @@ const NumberOfDices = 12;
 
 //TODO: Settings Modal to be added -> Theme Selector & Number/DiceDots View
 //TODO: expo-fonts tobe integrated
+//TODO: Show rolls counter
+//TODO: Save scores (rolls & time) and show the best
 
 const Main = () => {
   const CreateANewDice = () => ({
