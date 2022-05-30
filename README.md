@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">Roll and roll as fast as you can until you gets all the dice on the same number.</p>
-<p align="center">Try it out on your <a href="https://yahyabagia.github.io/tenzies-expo/">browser 🌐 </a> &nbsp;/&nbsp;<a href="https://expo.dev/@yahyabagia/tenzies-expo">mobile device 📱</a>.</p>
+<p align="center">Try it out on your <a href="https://yahyabagia.github.io/tenzies-expo/" target="_blank">browser 🌐 </a> &nbsp;/&nbsp;<a href="https://expo.dev/@yahyabagia/tenzies-expo" target="_blank">mobile device 📱</a>.</p>
 
 
 | | | |
