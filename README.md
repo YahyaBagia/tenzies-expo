@@ -1,8 +1,10 @@
-# Tenzies
+<p align="center">
+    <h1 align="center">⭐ Tenzies ⭐</h1>
+</p>
 
-Roll and roll as fast as you can until you gets all the dice on the same number.
+<p align="center">Roll and roll as fast as you can until you gets all the dice on the same number.</p>
+<p align="center">Try it out on your <a href="https://yahyabagia.github.io/tenzies-expo/">browser 🌐 </a> &nbsp;/&nbsp;<a href="https://expo.dev/@yahyabagia/tenzies-expo">mobile device 📱</a>.</p>
 
-Try it out on the [browser](https://yahyabagia.github.io/tenzies-expo/) or your [mobile device](https://expo.dev/@yahyabagia/tenzies-expo).
 
 | | | |
 | -- | -- | -- |
@@ -22,16 +24,36 @@ Try it out on the [browser](https://yahyabagia.github.io/tenzies-expo/) or your 
 ## Environment setup
 Follow the steps of the official [Expo documentation](https://docs.expo.dev/) to setup your development environment.
 
+Quick steps:
+
+- Install [NodeJS](https://nodejs.org/en/)
+- Install [expo-cli](https://docs.expo.dev/workflow/expo-cli/) (`npm install -g expo-cli`)
+
 
 ## To run the app
 
-### On Android
+### Clone the Repo
+```bash
+git clone https://github.com/YahyaBagia/tenzies-expo.git
+```
+
+### Install the Packages
+```bash
+yarn
+```
+
+### Run On Android
 ```bash
 yarn android
 ```
 
-### On iOS
+### Run On iOS
 ```bash
 yarn ios
+```
+
+### Run On Web
+```bash
+yarn web
 ```
 
