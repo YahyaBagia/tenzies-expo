@@ -149,6 +149,11 @@ const Main = () => {
     }
   };
 
+  if (Utils.IsOnWeb()) {
+    const { useHotkeys } = require('react-hotkeys-hook');
+    useHotkeys('space', CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll)
+  }
+
   return (
     <View
       style={{
