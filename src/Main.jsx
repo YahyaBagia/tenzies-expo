@@ -2,20 +2,22 @@ import { useState, useRef, useEffect } from "react";
 import { View, Dimensions } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
+import { useStopwatch } from "react-timer-hook";
 import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
 import Dice from "./components/Dice";
-import Timer from "./components/Timer";
 
-import { Colors } from "./common/Const";
 import Utils from "./common/Utils";
+import { Colors } from "./common/Const";
+import Timer from "./components/Timer";
 
 const NumberOfDices = 12;
 
 //TODO: Settings Modal to be added -> Theme Selector & Number/DiceDots View
 //TODO: expo-fonts tobe integrated
 //TODO: Show rolls counter
+//TODO: Show missed rolls (where selected number was there but user Rolled-away)
 //TODO: Save scores (rolls & time) and show the best
 
 const Main = () => {
@@ -24,27 +26,50 @@ const Main = () => {
     isSelected: false,
     id: nanoid(),
   });
+
   const SetNewDices = () =>
     [...Array(NumberOfDices)].map(() => CreateANewDice());
 
-  const [allDices, setAllDices] = useState(SetNewDices());
+  const {
+    seconds: tSeconds,
+    minutes: tMinutes,
+    hours: tHours,
+    start: startTimer,
+    pause: pauseTimer,
+    reset: resetTimer,
+  } = useStopwatch({});
 
-  const timerRef = useRef();
+  const [allDices, setAllDices] = useState(SetNewDices());
+  const [noOfRolls, setNoOfRolls] = useState(0);
 
   const leftConfettiRef = useRef();
   const rightConfettiRef = useRef();
 
+  const getSelectedDices = () => allDices.filter((die) => die.isSelected);
+
   useEffect(() => {
-    const res = allDices.filter((die) => die.isSelected);
-    if (res.length === 0) {
-      timerRef.current.resetTimer();
-    } else if (res.length === 1) {
-      timerRef.current.startTimer();
+    const selectedDices = getSelectedDices();
+    if (selectedDices.length === 0) {
+      resetNoOfRolls();
+      resetTimer();
+      pauseTimer();
+    } else if (selectedDices.length === 1) {
+      startTimer();
     } else if (CheckIfAllDicesAreTheSame()) {
       startConfettis();
-      timerRef.current.pauseTimer();
+      pauseTimer();
     }
   }, [allDices]);
+
+  const increaseNoOfRolls = () => {
+    console.log("increaseNoOfRolls");
+    setNoOfRolls((oldNoOfRolls) => {
+      console.log({ oldNoOfRolls });
+      return oldNoOfRolls + 1;
+    });
+  };
+
+  const resetNoOfRolls = () => setNoOfRolls(0);
 
   const startConfettis = () => {
     leftConfettiRef.current.start();
@@ -52,6 +77,9 @@ const Main = () => {
   };
 
   const onPressRoll = () => {
+    if (getSelectedDices().length > 0) {
+      increaseNoOfRolls();
+    }
     setAllDices((oldDice) =>
       oldDice.map((die) => (die.isSelected ? die : CreateANewDice()))
     );
@@ -59,7 +87,7 @@ const Main = () => {
 
   const onPressNewGame = () => {
     setAllDices(SetNewDices());
-    timerRef.current.resetTimer();
+    resetTimer();
   };
 
   const onPressDie = ({ id, title }) => {
@@ -133,12 +161,10 @@ const Main = () => {
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
           </Text>
-          <View style={{ margin: 12 }}>
-            <Timer ref={timerRef} />
-          </View>
+          <Timer {...{ tHours, tMinutes, tSeconds }} />
         </View>
 
-        <View style={{ alignItems: "center", marginVertical: 28 }}>
+        <View style={{ alignItems: "center" }}>
           {GetDiceElements().map((dices, i) => (
             <View
               style={{
@@ -155,6 +181,18 @@ const Main = () => {
             </View>
           ))}
         </View>
+
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 28,
+            fontWeight: "bold",
+            marginTop: 12,
+          }}
+        >
+          {noOfRolls} Rolls
+        </Text>
+
         <TouchableRipple
           style={{
             borderRadius: 12,
@@ -166,8 +204,8 @@ const Main = () => {
           }}
           onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
         >
-          <Text style={{ color: "white", fontSize: 30 }}>
-            {CheckIfAllDicesAreTheSame() ? "New Game" : "Roll"}
+          <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
+            {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
           </Text>
         </TouchableRipple>
       </View>

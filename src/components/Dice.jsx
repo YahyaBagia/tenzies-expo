@@ -14,6 +14,7 @@ const Dice = ({ title, isSelected, onPress }) => (
       width: 70,
       justifyContent: "center",
       alignItems: "center",
+      overflow: "hidden"
     }}
   >
     <Text style={{ fontSize: 45, fontWeight: "bold" }}>{title}</Text>

@@ -1,46 +1,15 @@
-import { useState, forwardRef, useImperativeHandle, useRef } from "react";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-const Timer = forwardRef((props, ref) => {
-  const [seconds, setSeconds] = useState(0);
-
-  const timeIntervalRef = useRef();
-
-  const formatTimeString = () => {
-    const date = new Date(seconds * 1000);
-    const isoString = date.toISOString();
-    const result = isoString.slice(14, 19);
-    return result;
-  };
-
-  const startTimer = () => {
-    timeIntervalRef.current = setInterval(() => {
-      setSeconds((oldSeconds) => oldSeconds + 1);
-    }, 1000);
-  };
-
-  const pauseTimer = () => {
-    clearInterval(timeIntervalRef.current);
-  };
-
-  const resetTimer = () => {
-    clearInterval(timeIntervalRef.current);
-    setSeconds(0);
-  };
-
-  useImperativeHandle(ref, () => ({ startTimer, pauseTimer, resetTimer }), []);
-
+const Timer = ({ tHours, tMinutes, tSeconds }) => {
+  const formatNumber = (n) => ("0" + n).slice(-2);
   return (
-    <Text
-      style={{
-        textAlign: "center",
-        fontSize: 22,
-        fontWeight: "bold",
-      }}
-    >
-      {formatTimeString()}
-    </Text>
+    <View style={{ marginTop: 12 }}>
+      <Text style={{ textAlign: "center", fontSize: 28, fontWeight: "bold" }}>
+        {formatNumber(tHours)}:{formatNumber(tMinutes)}:{formatNumber(tSeconds)}
+      </Text>
+    </View>
   );
-});
+};
 
 export default Timer;
