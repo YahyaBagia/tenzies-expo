@@ -43,6 +43,7 @@ const Main = () => {
     reset: resetTimer,
   } = useStopwatch({});
 
+  const [noOfRows, setNoOfRows] = useState(2);
   const [allDices, setAllDices] = useState(SetNewDices());
   const [noOfRolls, setNoOfRolls] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
@@ -133,7 +134,19 @@ const Main = () => {
     } else {
       splittedArrays = Utils.SplitArray(diceElements, 4);
     }
+    splittedArrays = Utils.SplitArray(diceElements, noOfRows);
     return splittedArrays;
+  };
+
+  const onLayoutRootView = (l) => {
+    const { width } = l.nativeEvent.layout;
+    if (width <= 480) {
+      setNoOfRows(4);
+    } else if (width > 480 && width <= 720) {
+      setNoOfRows(3);
+    } else if (width > 720) {
+      setNoOfRows(2);
+    }
   };
 
   return (
@@ -144,11 +157,12 @@ const Main = () => {
         alignItems: "center",
         backgroundColor: Colors.Primary,
       }}
+      onLayout={onLayoutRootView}
     >
       <View
         style={{
           justifyContent: "center",
-          width: Utils.IsOnWeb() ? undefined : "90%",
+          width: "90%",
         }}
       >
         <View style={{ margin: 12 }}>
@@ -205,6 +219,9 @@ const Main = () => {
             overflow: "hidden",
             borderRadius: 12,
             marginTop: 20,
+            width: "100%",
+            maxWidth: 615,
+            alignSelf: "center"
           }}
         >
           <TouchableRipple
