@@ -7,7 +7,7 @@ import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
 import Utils from "./common/Utils";
-import { Colors } from "./common/Const";
+import { Colors, Sounds } from "./common/Const";
 
 import Dice from "./components/Dice";
 import Timer from "./components/Timer";
@@ -64,6 +64,7 @@ const Main = () => {
       resetTimer();
       startTimer();
     } else if (CheckIfAllDicesAreTheSame()) {
+      Utils.PlaySound(Sounds.Game_Finished);
       startConfettis();
       pauseTimer();
     }
@@ -96,6 +97,7 @@ const Main = () => {
 
   const onPressDie = ({ id, title }) => {
     if (CheckIfAllDicesAreTheSame()) return;
+    Utils.PlaySound(Sounds.Dice_Click);
     const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
     if (firstSelectedDice) {
       if (title !== firstSelectedDice.title) return;
