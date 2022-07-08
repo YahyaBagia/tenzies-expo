@@ -1,24 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import { View, Dimensions } from "react-native";
-import { Text, TouchableRipple } from "react-native-paper";
+import { IconButton, Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
 import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
-import Dice from "./components/Dice";
-
 import Utils from "./common/Utils";
 import { Colors } from "./common/Const";
+
+import Dice from "./components/Dice";
 import Timer from "./components/Timer";
+
+import SettingsModal from "./SettingsModal";
+import { useGlobalState } from "./common/GlobalState";
 
 const NumberOfDices = 12;
 
-//TODO: Settings Modal to be added -> Theme Selector & Number/DiceDots View
-//TODO: expo-fonts tobe integrated
+//TODO: Settings Modal to be added -> Theme Selector, Number/DiceDots View & Sound On/Off
+//TODO: Sounds to be added
+//TODO: expo-fonts to be integrated
 //TODO: Show rolls counter
 //TODO: Show missed rolls (where selected number was there but user Rolled-away)
-//TODO: Save scores (rolls & time) and show the best
+//TODO: Save no of rolls & time taken to local storage and show scores table
 
 const Main = () => {
   const CreateANewDice = () => ({
@@ -41,6 +45,9 @@ const Main = () => {
 
   const [allDices, setAllDices] = useState(SetNewDices());
   const [noOfRolls, setNoOfRolls] = useState(0);
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+
+  const [diceType] = useGlobalState("diceType");
 
   const leftConfettiRef = useRef();
   const rightConfettiRef = useRef();
@@ -54,6 +61,7 @@ const Main = () => {
       resetTimer();
       pauseTimer();
     } else if (selectedDices.length === 1) {
+      resetTimer();
       startTimer();
     } else if (CheckIfAllDicesAreTheSame()) {
       startConfettis();
@@ -62,11 +70,7 @@ const Main = () => {
   }, [allDices]);
 
   const increaseNoOfRolls = () => {
-    console.log("increaseNoOfRolls");
-    setNoOfRolls((oldNoOfRolls) => {
-      console.log({ oldNoOfRolls });
-      return oldNoOfRolls + 1;
-    });
+    setNoOfRolls((oldNoOfRolls) => oldNoOfRolls + 1);
   };
 
   const resetNoOfRolls = () => setNoOfRolls(0);
@@ -117,6 +121,7 @@ const Main = () => {
         title={title}
         isSelected={isSelected}
         onPress={() => onPressDie(allDices[index])}
+        diceType={diceType}
       />
     ));
 
@@ -193,21 +198,28 @@ const Main = () => {
           {noOfRolls} Rolls
         </Text>
 
-        <TouchableRipple
+        <View
           style={{
+            overflow: "hidden",
             borderRadius: 12,
-            backgroundColor: Colors.ButtonBG,
-            height: 60,
             marginTop: 20,
-            justifyContent: "center",
-            alignItems: "center",
           }}
-          onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
         >
-          <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
-            {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
-          </Text>
-        </TouchableRipple>
+          <TouchableRipple
+            style={{
+              borderRadius: 12,
+              backgroundColor: Colors.ButtonBG,
+              height: 60,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
+          >
+            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
+              {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
+            </Text>
+          </TouchableRipple>
+        </View>
       </View>
       {CheckIfAllDicesAreTheSame() && (
         <>
@@ -229,6 +241,28 @@ const Main = () => {
           />
         </>
       )}
+      <SettingsModal
+        isVisible={isSettingsVisible}
+        onDismiss={() => setIsSettingsVisible(false)}
+      />
+      <View
+        style={{
+          position: "absolute",
+          top: 38,
+          right: 0,
+          backgroundColor: Colors.Highlight,
+          borderTopLeftRadius: 12,
+          borderBottomLeftRadius: 12,
+        }}
+      >
+        <IconButton
+          icon={"cog"}
+          color={Colors.ButtonBG}
+          onPress={() => setIsSettingsVisible(true)}
+          style={{ margin: 0, marginRight: 12 }}
+          size={30}
+        />
+      </View>
     </View>
   );
 };
