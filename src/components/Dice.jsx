@@ -1,4 +1,4 @@
-import { TouchableRipple, Text } from "react-native-paper";
+import { Text, TouchableRipple } from "react-native-paper";
 
 import { Colors } from "../common/Const";
 
