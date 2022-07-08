@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/tenzies-expo/static/js/app.6fbd96cd.chunk.js",
-    "app.js.map": "/tenzies-expo/static/js/app.6fbd96cd.chunk.js.map",
+    "app.js": "/tenzies-expo/static/js/app.e76f4e39.chunk.js",
+    "app.js.map": "/tenzies-expo/static/js/app.e76f4e39.chunk.js.map",
     "runtime~app.js": "/tenzies-expo/static/js/runtime~app.94944727.js",
     "runtime~app.js.map": "/tenzies-expo/static/js/runtime~app.94944727.js.map",
     "static/js/2.cbd8cf85.chunk.js": "/tenzies-expo/static/js/2.cbd8cf85.chunk.js",
@@ -21,6 +21,6 @@
   "entrypoints": [
     "static/js/runtime~app.94944727.js",
     "static/js/2.cbd8cf85.chunk.js",
-    "static/js/app.6fbd96cd.chunk.js"
+    "static/js/app.e76f4e39.chunk.js"
   ]
 }
