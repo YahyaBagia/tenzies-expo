@@ -6,6 +6,7 @@ export const Colors = {
 };
 
 export const Sounds = {
+  Roll_Dice: require("../../assets/Sounds/Roll_Dice.mp3"),
   Dice_Click: require("../../assets/Sounds/Dice_Click.wav"),
   Game_Finished: require("../../assets/Sounds/Game_Finished.wav"),
 };

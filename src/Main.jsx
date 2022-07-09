@@ -83,6 +83,7 @@ const Main = () => {
   };
 
   const onPressRoll = () => {
+    Utils.PlaySound(Sounds.Roll_Dice);
     if (getSelectedDices().length > 0) {
       increaseNoOfRolls();
     }
@@ -150,8 +151,11 @@ const Main = () => {
   };
 
   if (Utils.IsOnWeb()) {
-    const { useHotkeys } = require('react-hotkeys-hook');
-    useHotkeys('space', CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll)
+    const { useHotkeys } = require("react-hotkeys-hook");
+    useHotkeys(
+      "space",
+      CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll
+    );
   }
 
   return (
@@ -226,7 +230,7 @@ const Main = () => {
             marginTop: 20,
             width: "100%",
             maxWidth: 615,
-            alignSelf: "center"
+            alignSelf: "center",
           }}
         >
           <TouchableRipple
