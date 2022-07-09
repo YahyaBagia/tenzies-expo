@@ -10,17 +10,15 @@ import Utils from "./common/Utils";
 import { Colors, Sounds } from "./common/Const";
 
 import Dice from "./components/Dice";
-import Timer from "./components/Timer";
 
+import ScoresModal from "./ScoresModal";
 import SettingsModal from "./SettingsModal";
 import { useGlobalState } from "./common/GlobalState";
+import ScoreUtils from "./common/ScoreUtils";
 
 const NumberOfDices = 12;
 
-//TODO: Settings Modal to be added -> Theme Selector, Number/DiceDots View & Sound On/Off
-//TODO: Sounds to be added
 //TODO: expo-fonts to be integrated
-//TODO: Show rolls counter
 //TODO: Show missed rolls (where selected number was there but user Rolled-away)
 //TODO: Save no of rolls & time taken to local storage and show scores table
 
@@ -47,6 +45,7 @@ const Main = () => {
   const [allDices, setAllDices] = useState(SetNewDices());
   const [noOfRolls, setNoOfRolls] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const [isScoresVisible, setIsScoresVisible] = useState(false);
 
   const [diceType] = useGlobalState("diceType");
 
@@ -68,6 +67,12 @@ const Main = () => {
       Utils.PlaySound(Sounds.Game_Finished);
       startConfettis();
       pauseTimer();
+      ScoreUtils.AddNewScore(
+        { tHours, tMinutes, tSeconds },
+        noOfRolls,
+        selectedDices[0].title,
+        diceType
+      );
     }
   }, [allDices]);
 
@@ -80,6 +85,10 @@ const Main = () => {
   const startConfettis = () => {
     leftConfettiRef.current.start();
     rightConfettiRef.current.start();
+  };
+
+  const onPress_NewGame_or_Roll = () => {
+    CheckIfAllDicesAreTheSame() ? onPressNewGame() : onPressRoll();
   };
 
   const onPressRoll = () => {
@@ -152,10 +161,7 @@ const Main = () => {
 
   if (Utils.IsOnWeb()) {
     const { useHotkeys } = require("react-hotkeys-hook");
-    useHotkeys(
-      "space",
-      CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll
-    );
+    useHotkeys("space", onPress_NewGame_or_Roll);
   }
 
   return (
@@ -191,7 +197,13 @@ const Main = () => {
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
           </Text>
-          <Timer {...{ tHours, tMinutes, tSeconds }} />
+          <View style={{ marginTop: 12 }}>
+            <Text
+              style={{ textAlign: "center", fontSize: 28, fontWeight: "bold" }}
+            >
+              {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
+            </Text>
+          </View>
         </View>
 
         <View style={{ alignItems: "center" }}>
@@ -241,7 +253,7 @@ const Main = () => {
               justifyContent: "center",
               alignItems: "center",
             }}
-            onPress={CheckIfAllDicesAreTheSame() ? onPressNewGame : onPressRoll}
+            onPress={onPress_NewGame_or_Roll}
           >
             <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
               {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
@@ -269,10 +281,6 @@ const Main = () => {
           />
         </>
       )}
-      <SettingsModal
-        isVisible={isSettingsVisible}
-        onDismiss={() => setIsSettingsVisible(false)}
-      />
       <View
         style={{
           position: "absolute",
@@ -281,16 +289,44 @@ const Main = () => {
           backgroundColor: Colors.Highlight,
           borderTopLeftRadius: 12,
           borderBottomLeftRadius: 12,
+          overflow: "hidden",
         }}
       >
         <IconButton
           icon={"cog"}
           color={Colors.ButtonBG}
-          onPress={() => setIsSettingsVisible(true)}
           style={{ margin: 0, marginRight: 12 }}
           size={30}
+          onPress={() => setIsSettingsVisible(true)}
         />
       </View>
+      <View
+        style={{
+          position: "absolute",
+          top: 38,
+          left: 0,
+          backgroundColor: Colors.Highlight,
+          borderTopRightRadius: 12,
+          borderBottomRightRadius: 12,
+          overflow: "hidden",
+        }}
+      >
+        <IconButton
+          icon={"trophy"}
+          color={Colors.ButtonBG}
+          style={{ margin: 0, marginLeft: 12 }}
+          size={30}
+          onPress={() => setIsScoresVisible(true)}
+        />
+      </View>
+      <ScoresModal
+        isVisible={isScoresVisible}
+        onDismiss={() => setIsScoresVisible(false)}
+      />
+      <SettingsModal
+        isVisible={isSettingsVisible}
+        onDismiss={() => setIsSettingsVisible(false)}
+      />
     </View>
   );
 };
