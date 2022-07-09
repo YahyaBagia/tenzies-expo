@@ -1,5 +1,6 @@
 import { Platform } from "react-native";
 import { Audio } from "expo-av";
+
 import { getGlobalState } from "./GlobalState";
 
 export default class Utils {
@@ -24,11 +25,33 @@ export default class Utils {
   };
 
   static PlaySound = async (audio) => {
-    const soundEnabled = getGlobalState("soundEnabled");
-    if (!soundEnabled) return;
-    const { sound } = await Audio.Sound.createAsync(audio);
-    await sound.playAsync();
+    try {
+      const soundEnabled = getGlobalState("soundEnabled");
+      if (!soundEnabled) return;
+      const { sound } = await Audio.Sound.createAsync(audio);
+      await sound.playAsync();
+    } catch {}
   };
 
   static IsOnWeb = () => Platform.OS === "web";
+
+  //#region
+  static GetTimerText = ({ tHours, tMinutes, tSeconds }) => {
+    const twoDigitNumber = (n) => ("0" + n).slice(-2);
+    let formattedTime =
+      twoDigitNumber(tMinutes) + ":" + twoDigitNumber(tSeconds);
+    if (tHours > 0) {
+      formattedTime = twoDigitNumber(tHours) + ":" + formattedTime;
+    }
+    return formattedTime;
+  };
+
+  static GetTotalSecondsOfTimer = ({ tHours, tMinutes, tSeconds }) => {
+    const hSeconds = Number(tHours) * 3600;
+    const mSeconds = Number(tMinutes) * 60;
+    const sSeconds = Number(tSeconds);
+    const totalSeconds = hSeconds + mSeconds + sSeconds;
+    return totalSeconds;
+  };
+  //#endregion
 }
