@@ -8,14 +8,14 @@
 <p align="center">
 <table>
 <tr>
-<td><img src="screenshots/D1.jpg" width="200"></td>
-<td><img src="screenshots/D2.jpg" width="200"></td>
-<td><img src="screenshots/D3.jpg" width="200"></td>
+<td><img src="screenshots/D1.jpg"></td>
+<td><img src="screenshots/D2.jpg"></td>
+<td><img src="screenshots/D3.jpg"></td>
 </tr>
 <tr>
-<td><img src="screenshots/S1.jpg" width="200"></td>
-<td><img src="screenshots/S2.jpg" width="200"></td>
-<td><img src="screenshots/S3.jpg" width="200"></td>
+<td><img src="screenshots/S1.jpg"></td>
+<td><img src="screenshots/S2.jpg"></td>
+<td><img src="screenshots/S3.jpg"></td>
 </tr>
 </table>
 </p>
