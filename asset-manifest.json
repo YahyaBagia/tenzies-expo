@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/tenzies-expo/static/js/app.6ad4a404.chunk.js",
-    "app.js.map": "/tenzies-expo/static/js/app.6ad4a404.chunk.js.map",
+    "app.js": "/tenzies-expo/static/js/app.6e2f932c.chunk.js",
+    "app.js.map": "/tenzies-expo/static/js/app.6e2f932c.chunk.js.map",
     "runtime~app.js": "/tenzies-expo/static/js/runtime~app.94944727.js",
     "runtime~app.js.map": "/tenzies-expo/static/js/runtime~app.94944727.js.map",
-    "static/js/2.c662ce78.chunk.js": "/tenzies-expo/static/js/2.c662ce78.chunk.js",
-    "static/js/2.c662ce78.chunk.js.map": "/tenzies-expo/static/js/2.c662ce78.chunk.js.map",
+    "static/js/2.aa986ee0.chunk.js": "/tenzies-expo/static/js/2.aa986ee0.chunk.js",
+    "static/js/2.aa986ee0.chunk.js.map": "/tenzies-expo/static/js/2.aa986ee0.chunk.js.map",
     "fonts/MaterialCommunityIcons.ttf": "/tenzies-expo/./fonts/MaterialCommunityIcons.ttf",
     "favicon-16.png": "/tenzies-expo/favicon-16.png",
     "favicon-32.png": "/tenzies-expo/favicon-32.png",
@@ -13,15 +13,15 @@
     "index.html": "/tenzies-expo/index.html",
     "manifest.json": "/tenzies-expo/manifest.json",
     "serve.json": "/tenzies-expo/serve.json",
-    "static/js/2.c662ce78.chunk.js.LICENSE.txt": "/tenzies-expo/static/js/2.c662ce78.chunk.js.LICENSE.txt",
+    "static/js/2.aa986ee0.chunk.js.LICENSE.txt": "/tenzies-expo/static/js/2.aa986ee0.chunk.js.LICENSE.txt",
     "static/media/Dice_Click.wav": "/tenzies-expo/static/media/Dice_Click.e8c6c391.wav",
     "static/media/Game_Finished.wav": "/tenzies-expo/static/media/Game_Finished.9b5b1a62.wav",
     "static/media/Roll_Dice.mp3": "/tenzies-expo/static/media/Roll_Dice.cb9e941e.mp3",
-    "static/media/splash.png": "/tenzies-expo/static/media/splash.6444b62c.png"
+    "static/media/splash.png": "/tenzies-expo/static/media/splash.32214774.png"
   },
   "entrypoints": [
     "static/js/runtime~app.94944727.js",
-    "static/js/2.c662ce78.chunk.js",
-    "static/js/app.6ad4a404.chunk.js"
+    "static/js/2.aa986ee0.chunk.js",
+    "static/js/app.6e2f932c.chunk.js"
   ]
 }
