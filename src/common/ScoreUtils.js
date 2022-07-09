@@ -21,7 +21,6 @@ export default class ScoreUtils {
       totalSeconds: Utils.GetTotalSecondsOfTimer(time),
       diceType,
     };
-    console.log(scoreObj);
     const allScores = await ScoreUtils.GetAllScores();
     allScores.push(scoreObj);
     await ScoreUtils.SaveScores(allScores);
