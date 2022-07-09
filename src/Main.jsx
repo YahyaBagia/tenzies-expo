@@ -20,7 +20,6 @@ const NumberOfDices = 12;
 
 //TODO: expo-fonts to be integrated
 //TODO: Show missed rolls (where selected number was there but user Rolled-away)
-//TODO: Save no of rolls & time taken to local storage and show scores table
 
 const Main = () => {
   const CreateANewDice = () => ({
@@ -93,7 +92,8 @@ const Main = () => {
 
   const onPressRoll = () => {
     Utils.PlaySound(Sounds.Roll_Dice);
-    if (getSelectedDices().length > 0) {
+    const selectedDices = getSelectedDices();
+    if (selectedDices.length > 0) {
       increaseNoOfRolls();
     }
     setAllDices((oldDice) =>
@@ -159,10 +159,11 @@ const Main = () => {
     }
   };
 
-  if (Utils.IsOnWeb()) {
-    const { useHotkeys } = require("react-hotkeys-hook");
-    useHotkeys("space", onPress_NewGame_or_Roll);
-  }
+  //Rolls count does not work if we use SpaceBar to roll the dices.
+  // if (Utils.IsOnWeb()) {
+  //   const { useHotkeys } = require("react-hotkeys-hook");
+  //   useHotkeys("space", onPress_NewGame_or_Roll);
+  // }
 
   return (
     <View
