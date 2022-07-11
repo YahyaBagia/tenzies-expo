@@ -5,7 +5,6 @@
   "name": "tenzies-expo",
   "short_name": "tenzies-expo",
   "start_url": "/?utm_source=web_app_manifest",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/tenzies-expo/pwa/chrome-icon/chrome-icon-144.png",
