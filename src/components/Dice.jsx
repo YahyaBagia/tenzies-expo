@@ -5,7 +5,7 @@ import { Colors } from "../common/Const";
 import { DiceTypes } from "../common/GlobalState";
 
 const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
-  const diceSize = isCompact ? 50 : 70;
+  const diceSize = isCompact ? 40 : 70;
   return (
     <View style={{ overflow: "hidden", borderRadius: 12 }}>
       <TouchableRipple
@@ -32,14 +32,14 @@ const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
 };
 
 const DiceDigit = ({ title, isCompact }) => {
-  const diceFontSize = isCompact ? 32 : 45;
+  const diceFontSize = isCompact ? 25 : 45;
   return (
     <Text style={{ fontSize: diceFontSize, fontWeight: "bold" }}>{title}</Text>
   );
 };
 
 const DiceSymbol = ({ title, isCompact }) => {
-  const dotSize = isCompact ? 10 : 15;
+  const dotSize = isCompact ? 8 : 15;
 
   const one = <DiceDot dotSize={dotSize} />;
   const two = (
