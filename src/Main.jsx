@@ -7,29 +7,31 @@ import "react-native-get-random-values";
 import { nanoid } from "nanoid";
 
 import Utils from "./common/Utils";
+import ScoreUtils from "./common/ScoreUtils";
 import { Colors, Sounds } from "./common/Const";
+import { useGlobalState } from "./common/GlobalState";
 
 import Dice from "./components/Dice";
 
 import ScoresModal from "./ScoresModal";
 import SettingsModal from "./SettingsModal";
-import { useGlobalState } from "./common/GlobalState";
-import ScoreUtils from "./common/ScoreUtils";
-
-const NumberOfDices = 12;
+import useUpdateEffect from "./common/CustomHooks";
 
 //TODO: expo-fonts to be integrated
+//TODO: Save noOfDices in the Score and display noOfDice-wise scores in ScoreModal
 //TODO: Show missed rolls (where selected number was there but user Rolled-away)
 
 const Main = () => {
-  const CreateANewDice = () => ({
+  const [diceType] = useGlobalState("diceType");
+  const [noOfDices] = useGlobalState("noOfDices");
+
+  const CreateDice = () => ({
     title: `${Math.ceil(Math.random() * 6)}`,
     isSelected: false,
     id: nanoid(),
   });
 
-  const SetNewDices = () =>
-    [...Array(NumberOfDices)].map(() => CreateANewDice());
+  const GenerateNewDices = () => [...Array(noOfDices)].map(() => CreateDice());
 
   const {
     seconds: tSeconds,
@@ -41,12 +43,10 @@ const Main = () => {
   } = useStopwatch({});
 
   const [noOfRows, setNoOfRows] = useState(2);
-  const [allDices, setAllDices] = useState(SetNewDices());
+  const [allDices, setAllDices] = useState(GenerateNewDices());
   const [noOfRolls, setNoOfRolls] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [isScoresVisible, setIsScoresVisible] = useState(false);
-
-  const [diceType] = useGlobalState("diceType");
 
   const leftConfettiRef = useRef();
   const rightConfettiRef = useRef();
@@ -70,10 +70,18 @@ const Main = () => {
         { tHours, tMinutes, tSeconds },
         noOfRolls,
         selectedDices[0].title,
-        diceType
+        diceType,
+        noOfDices
       );
     }
   }, [allDices]);
+
+  useUpdateEffect(() => {
+    setAllDices(GenerateNewDices());
+    pauseTimer();
+    resetTimer();
+    calculateNoOfRows();
+  }, [noOfDices]);
 
   const increaseNoOfRolls = () => {
     setNoOfRolls((oldNoOfRolls) => oldNoOfRolls + 1);
@@ -97,12 +105,12 @@ const Main = () => {
       increaseNoOfRolls();
     }
     setAllDices((oldDice) =>
-      oldDice.map((die) => (die.isSelected ? die : CreateANewDice()))
+      oldDice.map((die) => (die.isSelected ? die : CreateDice()))
     );
   };
 
   const onPressNewGame = () => {
-    setAllDices(SetNewDices());
+    setAllDices(GenerateNewDices());
     resetTimer();
   };
 
@@ -150,10 +158,24 @@ const Main = () => {
 
   const onLayoutRootView = (l) => {
     const { width } = l.nativeEvent.layout;
-    if (width <= 480) {
+    calculateNoOfRows(width);
+  };
+
+  const calculateNoOfRows = (width = Dimensions.get("window").width) => {
+    if (noOfDices === 10) {
+      if (width <= 480) {
+        setNoOfRows(5);
+      } else {
+        setNoOfRows(2);
+      }
+      return;
+    }
+    if (noOfDices === 4) {
+      setNoOfRows(1);
+    } else if (noOfDices === 6) {
+      setNoOfRows(2);
+    } else if (width <= 480) {
       setNoOfRows(4);
-    } else if (width > 480 && width <= 720) {
-      setNoOfRows(3);
     } else if (width > 720) {
       setNoOfRows(2);
     }
@@ -181,7 +203,7 @@ const Main = () => {
           width: "90%",
         }}
       >
-        <View style={{ margin: 12 }}>
+        <View style={{ margin: 12, alignItems: "center" }}>
           <Text
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 50 }}
           >
@@ -198,11 +220,33 @@ const Main = () => {
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
           </Text>
-          <View style={{ marginTop: 12 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 12,
+              width: "100%",
+              maxWidth: 480,
+            }}
+          >
             <Text
-              style={{ textAlign: "center", fontSize: 28, fontWeight: "bold" }}
+              style={{
+                flex: 1,
+                fontSize: 28,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
             >
               {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                fontSize: 28,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              {noOfRolls} Rolls
             </Text>
           </View>
         </View>
@@ -224,17 +268,6 @@ const Main = () => {
             </View>
           ))}
         </View>
-
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 28,
-            fontWeight: "bold",
-            marginTop: 12,
-          }}
-        >
-          {noOfRolls} Rolls
-        </Text>
 
         <View
           style={{

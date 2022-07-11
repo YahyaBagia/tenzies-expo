@@ -12,7 +12,13 @@ export default class ScoreUtils {
     return JSON.parse(strScores);
   };
 
-  static AddNewScore = async (time, noOfRolls, selectedDice, diceType) => {
+  static AddNewScore = async (
+    time,
+    noOfRolls,
+    selectedDice,
+    diceType,
+    noOfDices
+  ) => {
     const scoreObj = {
       id: nanoid(),
       time,
@@ -20,6 +26,7 @@ export default class ScoreUtils {
       selectedDice,
       totalSeconds: Utils.GetTotalSecondsOfTimer(time),
       diceType,
+      noOfDices,
     };
     const allScores = await ScoreUtils.GetAllScores();
     allScores.push(scoreObj);

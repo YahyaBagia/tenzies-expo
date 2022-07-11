@@ -2,6 +2,7 @@ import { View } from "react-native";
 import {
   Dialog,
   Divider,
+  IconButton,
   Portal,
   Text,
   Title,
@@ -14,13 +15,27 @@ import { Colors } from "./common/Const";
 import {
   DiceTypes,
   useGlobalState,
+  SetNoOfDices,
   SetDiceType,
   SetSoundEnabled,
 } from "./common/GlobalState";
 
 const SettingsModal = ({ isVisible, onDismiss }) => {
+  const [noOfDices] = useGlobalState("noOfDices");
   const [diceType] = useGlobalState("diceType");
   const [soundEnabled] = useGlobalState("soundEnabled");
+
+  const decreaseNoOfDices = () => {
+    if (noOfDices > 4) {
+      SetNoOfDices(noOfDices - 2);
+    }
+  };
+
+  const increaseNoOfDices = () => {
+    if (noOfDices < 12) {
+      SetNoOfDices(noOfDices + 2);
+    }
+  };
 
   return (
     <Portal>
@@ -49,13 +64,12 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
             Settings
           </Title>
         </Dialog.Actions>
+        <Divider style={{ marginBottom: 12 }} />
         <Dialog.Content>
-          <Divider />
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 12,
             }}
           >
             <Text style={{ flex: 1, fontSize: 21, fontWeight: "bold" }}>
@@ -71,16 +85,17 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
                   diceType={dT}
                   key={dT}
                 />
-                {i !== DiceTypes.length - 1 && <View style={{ width: 12 }} key={`${i}`} />}
+                {i !== DiceTypes.length - 1 && (
+                  <View style={{ width: 12 }} key={`${i}`} />
+                )}
               </>
             ))}
           </View>
-
+          <Divider style={{ marginVertical: 12 }} />
           <View
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginTop: 12,
             }}
           >
             <Text style={{ fontSize: 21, fontWeight: "bold" }}>Sound</Text>
@@ -91,14 +106,53 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
                 onTabPress={(i) => SetSoundEnabled(i === 0)}
                 borderRadius={12}
                 tabStyle={{ borderWidth: 3, borderColor: Colors.Highlight }}
-                tabsContainerStyle={{ width: 112 }}
+                tabsContainerStyle={{ width: 92 }}
                 activeTabStyle={{ backgroundColor: Colors.ButtonBG }}
                 tabTextStyle={{
                   color: Colors.ButtonBG,
                   fontWeight: "bold",
-                  fontSize: 26,
+                  fontSize: 20,
                 }}
               />
+            </View>
+          </View>
+          <Divider style={{ marginVertical: 12 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 21, fontWeight: "bold" }}>
+              No. of Dices
+            </Text>
+            <View style={{ flex: 1, alignItems: "flex-end" }}>
+              <View
+                style={{
+                  borderWidth: 3,
+                  borderColor: Colors.Highlight,
+                  borderRadius: 12,
+                  backgroundColor: "white",
+                  flexDirection: "row",
+                  width: 92,
+                  height: 42,
+                  alignItems: "center",
+                  overflow: "hidden",
+                }}
+              >
+                <StepperButton icon={"minus"} onPress={decreaseNoOfDices} />
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: 20,
+                  }}
+                >
+                  {noOfDices}
+                </Text>
+                <StepperButton icon={"plus"} onPress={increaseNoOfDices} />
+              </View>
             </View>
           </View>
         </Dialog.Content>
@@ -108,3 +162,23 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
 };
 
 export default SettingsModal;
+
+const StepperButton = ({ icon, onPress }) => (
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: Colors.ButtonBG,
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100%",
+    }}
+  >
+    <IconButton
+      icon={icon}
+      size={28}
+      onPress={onPress}
+      style={{ margin: 0 }}
+      color={Colors.Highlight}
+    />
+  </View>
+);

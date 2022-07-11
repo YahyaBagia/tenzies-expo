@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const DiceTypes = ["Digit", "Symbol"];
 
 const initialState = {
+  noOfDices: 12,
   soundEnabled: true,
   diceType: DiceTypes[0],
 };
@@ -14,6 +15,11 @@ const { useGlobalState, getGlobalState, setGlobalState } =
   createGlobalState(initialState);
 
 //#region - Cachable Global State
+
+export const SetNoOfDices = (value) => {
+  setGlobalState("noOfDices", (v) => value);
+  CacheStateLocally();
+};
 
 export const SetSoundEnabled = (value) => {
   setGlobalState("soundEnabled", (v) => value);
@@ -31,6 +37,7 @@ export const SetDiceType = (value) => {
 
 const CacheStateLocally = async () => {
   let cacheableState = {
+    noOfDices: getGlobalState("noOfDices"),
     soundEnabled: getGlobalState("soundEnabled"),
     diceType: getGlobalState("diceType"),
   };
