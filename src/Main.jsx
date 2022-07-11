@@ -170,9 +170,7 @@ const Main = () => {
       }
       return;
     }
-    if (noOfDices === 4) {
-      setNoOfRows(1);
-    } else if (noOfDices === 6) {
+    if (noOfDices === 4 || noOfDices === 6) {
       setNoOfRows(2);
     } else if (width <= 480) {
       setNoOfRows(4);
