@@ -8,10 +8,10 @@
 <p align="center">
 <table>
 <tr>
-<td><img src="screenshots/1.jpg"></td>
-<td><img src="screenshots/2.jpg"></td>
-<td><img src="screenshots/3.jpg"></td>
-<td><img src="screenshots/4.jpg"></td>
+<td><img src="screenshots/1.jpeg"></td>
+<td><img src="screenshots/2.jpeg"></td>
+<td><img src="screenshots/3.jpeg"></td>
+<td><img src="screenshots/4.jpeg"></td>
 </tr>
 </table>
 </p>
