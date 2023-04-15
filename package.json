@@ -2,6 +2,7 @@
   "name": "tenzies-expo",
   "version": "1.0.0",
   "main": "main.js",
+  "homepage": "http://yahyabagia.github.io/tenzies-expo",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,7 +11,7 @@
     "eject": "expo eject",
     "expo-publish": "expo publish",
     "deploy": "gh-pages -d web-build",
-    "predeploy": "expo build:web"
+    "predeploy": "expo export:web"
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
@@ -34,7 +35,8 @@
     "react-timer-hook": "^3.0.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "gh-pages": "^5.0.0"
   },
   "private": true
 }
