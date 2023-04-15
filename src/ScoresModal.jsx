@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import {
   Dialog,
-  Divider,
   Portal,
   Text,
   Title,
@@ -11,6 +10,7 @@ import {
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "./components/Dice";
+import Separator from "./components/Separator";
 
 import Utils from "./common/Utils";
 import { Colors } from "./common/Const";
@@ -54,26 +54,23 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
           maxHeight: 680,
           width: "92%",
           alignSelf: "center",
-          marginVertical: 20,
-          marginHorizontal: 15,
           backgroundColor: Colors.Primary,
         }}
       >
-        <Dialog.Actions>
-          <Title
-            style={{
-              flex: 1,
-              marginLeft: 10,
-              fontSize: 26,
-              fontWeight: "bold",
-              textAlign: "center",
-            }}
-          >
-            Scoreboard
-          </Title>
-        </Dialog.Actions>
-        <Divider />
-        <Dialog.ScrollArea>
+        <Dialog.ScrollArea style={{ borderColor: "transparent" }}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Title
+              style={{
+                flex: 1,
+                fontSize: 26,
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              Scoreboard
+            </Title>
+          </View>
+          <Separator />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Dice title={"5"} isCompact diceType={diceType} />
             <View style={{ flex: 1, marginHorizontal: 4 }}>

@@ -1,7 +1,6 @@
 import { View } from "react-native";
 import {
   Dialog,
-  Divider,
   IconButton,
   Portal,
   Text,
@@ -10,6 +9,7 @@ import {
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "./components/Dice";
+import Separator from "./components/Separator";
 
 import { Colors } from "./common/Const";
 import {
@@ -46,26 +46,29 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
           maxWidth: 470,
           width: "85%",
           alignSelf: "center",
-          marginVertical: 20,
-          marginHorizontal: 15,
           backgroundColor: Colors.Primary,
         }}
       >
-        <Dialog.Actions>
-          <Title
+        <Dialog.Content>
+          <View
             style={{
-              flex: 1,
-              marginLeft: 10,
-              fontSize: 26,
-              fontWeight: "bold",
-              textAlign: "center",
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            Settings
-          </Title>
-        </Dialog.Actions>
-        <Divider style={{ marginBottom: 12 }} />
-        <Dialog.Content>
+            <Title
+              style={{
+                flex: 1,
+                fontSize: 26,
+                fontWeight: "bold",
+                textAlign: "center",
+                marginBottom: 12
+              }}
+            >
+              Settings
+            </Title>
+          </View>
+          <Separator />
           <View
             style={{
               flexDirection: "row",
@@ -76,22 +79,21 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               Dice Type
             </Text>
             {DiceTypes.map((dT, i) => (
-              <>
+              <View key={dT} style={{ flexDirection: "row", }}>
                 <Dice
                   title={"5"}
                   isSelected={diceType === dT}
                   onPress={() => SetDiceType(dT)}
                   isCompact
                   diceType={dT}
-                  key={dT}
                 />
                 {i !== DiceTypes.length - 1 && (
-                  <View style={{ width: 12 }} key={`${i}`} />
+                  <View style={{ width: 12 }} />
                 )}
-              </>
+              </View>
             ))}
           </View>
-          <Divider style={{ marginVertical: 12 }} />
+          <Separator />
           <View
             style={{
               flexDirection: "row",
@@ -116,7 +118,7 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               />
             </View>
           </View>
-          <Divider style={{ marginVertical: 12 }} />
+          <Separator />
           <View
             style={{
               flexDirection: "row",
@@ -178,7 +180,7 @@ const StepperButton = ({ icon, onPress }) => (
       size={28}
       onPress={onPress}
       style={{ margin: 0 }}
-      color={Colors.Highlight}
+      iconColor={Colors.Highlight}
     />
   </View>
 );

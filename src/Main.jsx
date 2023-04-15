@@ -9,13 +9,12 @@ import { nanoid } from "nanoid";
 import Utils from "./common/Utils";
 import ScoreUtils from "./common/ScoreUtils";
 import { Colors, Sounds } from "./common/Const";
+import useUpdateEffect from "./common/CustomHooks";
 import { useGlobalState } from "./common/GlobalState";
 
 import Dice from "./components/Dice";
-
 import ScoresModal from "./ScoresModal";
 import SettingsModal from "./SettingsModal";
-import useUpdateEffect from "./common/CustomHooks";
 
 //TODO: expo-fonts to be integrated
 //TODO: Save noOfDices in the Score and display noOfDice-wise scores in ScoreModal
@@ -326,7 +325,7 @@ const Main = () => {
       >
         <IconButton
           icon={"cog"}
-          color={Colors.ButtonBG}
+          iconColor={Colors.ButtonBG}
           style={{ margin: 0, marginRight: 12 }}
           size={30}
           onPress={() => setIsSettingsVisible(true)}
@@ -345,7 +344,7 @@ const Main = () => {
       >
         <IconButton
           icon={"trophy"}
-          color={Colors.ButtonBG}
+          iconColor={Colors.ButtonBG}
           style={{ margin: 0, marginLeft: 12 }}
           size={30}
           onPress={() => setIsScoresVisible(true)}
