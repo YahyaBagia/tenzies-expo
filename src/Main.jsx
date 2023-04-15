@@ -287,7 +287,7 @@ const Main = () => {
             }}
             onPress={onPress_NewGame_or_Roll}
           >
-            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
+            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }} selectable={false}>
               {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
             </Text>
           </TouchableRipple>

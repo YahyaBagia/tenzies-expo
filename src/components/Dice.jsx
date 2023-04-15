@@ -34,7 +34,7 @@ const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
 const DiceDigit = ({ title, isCompact }) => {
   const diceFontSize = isCompact ? 25 : 45;
   return (
-    <Text style={{ fontSize: diceFontSize, fontWeight: "bold" }}>{title}</Text>
+    <Text style={{ fontSize: diceFontSize, fontWeight: "bold" }} selectable={false}>{title}</Text>
   );
 };
 
