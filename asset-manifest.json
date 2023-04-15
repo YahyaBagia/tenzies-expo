@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.js": "/static/js/main.fc4be535.js",
-    "static/js/961.4c5c04e9.js": "/static/js/961.4c5c04e9.js",
-    "static/media/MaterialCommunityIcons.ttf": "/static/media/MaterialCommunityIcons.5d42b4e60858731e7b65.ttf",
-    "static/media/splash.png": "/static/media/splash.32214774c3e9e8b7209f.png",
-    "static/media/Game_Finished.wav": "/static/media/Game_Finished.8b4512ba3b17479754a1.wav",
-    "static/media/Dice_Click.wav": "/static/media/Dice_Click.23253ef012833c8ea13c.wav",
-    "static/media/Roll_Dice.mp3": "/static/media/Roll_Dice.cb9e941ecb7c18a9eb98.mp3",
-    "favicon.ico": "/favicon.ico",
-    "index.html": "/index.html",
-    "favicon-32.png": "/favicon-32.png",
-    "favicon-16.png": "/favicon-16.png",
-    "serve.json": "/serve.json",
-    "manifest.json": "/manifest.json",
-    "main.fc4be535.js.map": "/static/js/main.fc4be535.js.map",
-    "961.4c5c04e9.js.map": "/static/js/961.4c5c04e9.js.map"
+    "main.js": "/tenzies-expo/static/js/main.6e92bbf0.js",
+    "static/js/961.4c5c04e9.js": "/tenzies-expo/static/js/961.4c5c04e9.js",
+    "static/media/MaterialCommunityIcons.ttf": "/tenzies-expo/static/media/MaterialCommunityIcons.5d42b4e60858731e7b65.ttf",
+    "static/media/splash.png": "/tenzies-expo/static/media/splash.32214774c3e9e8b7209f.png",
+    "static/media/Game_Finished.wav": "/tenzies-expo/static/media/Game_Finished.8b4512ba3b17479754a1.wav",
+    "static/media/Dice_Click.wav": "/tenzies-expo/static/media/Dice_Click.23253ef012833c8ea13c.wav",
+    "static/media/Roll_Dice.mp3": "/tenzies-expo/static/media/Roll_Dice.cb9e941ecb7c18a9eb98.mp3",
+    "favicon.ico": "/tenzies-expo/favicon.ico",
+    "index.html": "/tenzies-expo/index.html",
+    "favicon-32.png": "/tenzies-expo/favicon-32.png",
+    "favicon-16.png": "/tenzies-expo/favicon-16.png",
+    "serve.json": "/tenzies-expo/serve.json",
+    "manifest.json": "/tenzies-expo/manifest.json",
+    "main.6e92bbf0.js.map": "/tenzies-expo/static/js/main.6e92bbf0.js.map",
+    "961.4c5c04e9.js.map": "/tenzies-expo/static/js/961.4c5c04e9.js.map"
   },
   "entrypoints": [
     "static/js/961.4c5c04e9.js",
-    "static/js/main.fc4be535.js"
+    "static/js/main.6e92bbf0.js"
   ]
 }
