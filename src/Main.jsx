@@ -188,11 +188,10 @@ const Main = () => {
     }
   };
 
-  //Rolls count does not work if we use SpaceBar to roll the dices.
-  // if (Utils.IsOnWeb()) {
-  //   const { useHotkeys } = require("react-hotkeys-hook");
-  //   useHotkeys("space", onPress_NewGame_or_Roll);
-  // }
+  if (Utils.IsOnWeb()) {
+    const { useHotkeys } = require("react-hotkeys-hook");
+    useHotkeys("space", onPress_NewGame_or_Roll);
+  }
 
   return (
     <View
