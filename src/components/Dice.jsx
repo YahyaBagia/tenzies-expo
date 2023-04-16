@@ -13,7 +13,7 @@ const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
         style={{
           borderRadius: 12,
           backgroundColor: isSelected ? Colors.Highlight : "white",
-          borderColor: Colors.Highlight,
+          borderColor: isSelected ? Colors.ButtonBG : Colors.Highlight,
           borderWidth: 3,
           height: diceSize,
           width: diceSize,

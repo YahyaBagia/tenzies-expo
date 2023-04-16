@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import "react-native-get-random-values";
-import { nanoid } from "nanoid";
+import * as Crypto from "expo-crypto";
+
 import Utils from "./Utils";
 
 const SCORE_STORAGE_KEY = "SCORES";
@@ -20,7 +20,7 @@ export default class ScoreUtils {
     noOfDices
   ) => {
     const scoreObj = {
-      id: nanoid(),
+      id: Crypto.randomUUID(),
       time,
       noOfRolls,
       selectedDice,

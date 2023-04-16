@@ -3,8 +3,7 @@ import { View, Dimensions } from "react-native";
 import { IconButton, Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
-import "react-native-get-random-values";
-import { nanoid } from "nanoid";
+import * as Crypto from 'expo-crypto';
 
 import Utils from "./common/Utils";
 import ScoreUtils from "./common/ScoreUtils";
@@ -15,9 +14,9 @@ import { useGlobalState } from "./common/GlobalState";
 import Dice from "./components/Dice";
 import ScoresModal from "./ScoresModal";
 import SettingsModal from "./SettingsModal";
+import GameButton from "./components/GameButton";
 
 //TODO: expo-fonts to be integrated
-//TODO: Save noOfDices in the Score and display noOfDice-wise scores in ScoreModal
 //TODO: Show missed rolls (where selected number was there but user Rolled-away)
 
 const Main = () => {
@@ -27,7 +26,7 @@ const Main = () => {
   const CreateDice = () => ({
     title: `${Math.ceil(Math.random() * 6)}`,
     isSelected: false,
-    id: nanoid(),
+    id: Crypto.randomUUID(),
   });
 
   const GenerateNewDices = () => [...Array(noOfDices)].map(() => CreateDice());
@@ -191,6 +190,7 @@ const Main = () => {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: Colors.Primary,
+        overflow: "hidden"
       }}
       onLayout={onLayoutRootView}
     >
@@ -266,31 +266,12 @@ const Main = () => {
           ))}
         </View>
 
-        <View
-          style={{
-            overflow: "hidden",
-            borderRadius: 12,
-            marginTop: 20,
-            width: "100%",
-            maxWidth: 615,
-            alignSelf: "center",
-          }}
-        >
-          <TouchableRipple
-            style={{
-              borderRadius: 12,
-              backgroundColor: Colors.ButtonBG,
-              height: 60,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            onPress={onPress_NewGame_or_Roll}
-          >
-            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }} selectable={false}>
-              {CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
-            </Text>
-          </TouchableRipple>
-        </View>
+        <GameButton
+          title={CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
+          onPress={onPress_NewGame_or_Roll}
+          invertedColors={CheckIfAllDicesAreTheSame()}
+        />
+
       </View>
       {CheckIfAllDicesAreTheSame() && (
         <>
@@ -312,44 +293,48 @@ const Main = () => {
           />
         </>
       )}
-      <View
+      <TouchableRipple
         style={{
           position: "absolute",
-          top: 38,
-          right: 0,
+          top: 44,
+          right: -3,
           backgroundColor: Colors.Highlight,
           borderTopLeftRadius: 12,
           borderBottomLeftRadius: 12,
+          borderWidth: 3,
+          borderColor: Colors.ButtonBG,
           overflow: "hidden",
         }}
+        onPress={() => setIsSettingsVisible(true)}
       >
         <IconButton
           icon={"cog"}
           iconColor={Colors.ButtonBG}
-          style={{ margin: 0, marginRight: 12 }}
+          style={{ margin: 0, marginHorizontal: 12 }}
           size={30}
-          onPress={() => setIsSettingsVisible(true)}
         />
-      </View>
-      <View
+      </TouchableRipple>
+      <TouchableRipple
         style={{
           position: "absolute",
-          top: 38,
-          left: 0,
+          top: 44,
+          left: -3,
           backgroundColor: Colors.Highlight,
           borderTopRightRadius: 12,
           borderBottomRightRadius: 12,
+          borderWidth: 3,
+          borderColor: Colors.ButtonBG,
           overflow: "hidden",
         }}
+        onPress={() => setIsScoresVisible(true)}
       >
         <IconButton
           icon={"trophy"}
           iconColor={Colors.ButtonBG}
-          style={{ margin: 0, marginLeft: 12 }}
+          style={{ margin: 0, marginHorizontal: 12 }}
           size={30}
-          onPress={() => setIsScoresVisible(true)}
         />
-      </View>
+      </TouchableRipple>
       <ScoresModal
         isVisible={isScoresVisible}
         onDismiss={() => setIsScoresVisible(false)}
@@ -358,7 +343,7 @@ const Main = () => {
         isVisible={isSettingsVisible}
         onDismiss={() => setIsSettingsVisible(false)}
       />
-    </View>
+    </View >
   );
 };
 
