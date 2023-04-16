@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/tenzies-expo/static/js/main.8966ad99.js",
-    "static/js/626.ab5e5c5f.js": "/tenzies-expo/static/js/626.ab5e5c5f.js",
+    "main.js": "/tenzies-expo/static/js/main.2bfff425.js",
+    "static/js/259.d5f31c60.js": "/tenzies-expo/static/js/259.d5f31c60.js",
     "static/media/MaterialCommunityIcons.ttf": "/tenzies-expo/static/media/MaterialCommunityIcons.5d42b4e60858731e7b65.ttf",
     "static/media/splash.png": "/tenzies-expo/static/media/splash.32214774c3e9e8b7209f.png",
     "static/media/MouldyCheeseRegular.ttf": "/tenzies-expo/static/media/MouldyCheeseRegular.41dbb44e92be1835c64c.ttf",
@@ -14,11 +14,11 @@
     "favicon-16.png": "/tenzies-expo/favicon-16.png",
     "serve.json": "/tenzies-expo/serve.json",
     "manifest.json": "/tenzies-expo/manifest.json",
-    "main.8966ad99.js.map": "/tenzies-expo/static/js/main.8966ad99.js.map",
-    "626.ab5e5c5f.js.map": "/tenzies-expo/static/js/626.ab5e5c5f.js.map"
+    "main.2bfff425.js.map": "/tenzies-expo/static/js/main.2bfff425.js.map",
+    "259.d5f31c60.js.map": "/tenzies-expo/static/js/259.d5f31c60.js.map"
   },
   "entrypoints": [
-    "static/js/626.ab5e5c5f.js",
-    "static/js/main.8966ad99.js"
+    "static/js/259.d5f31c60.js",
+    "static/js/main.2bfff425.js"
   ]
 }
