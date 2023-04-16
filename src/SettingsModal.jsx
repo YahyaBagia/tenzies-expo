@@ -1,17 +1,11 @@
 import { View } from "react-native";
-import {
-  Dialog,
-  IconButton,
-  Portal,
-  Text,
-  Title,
-} from "react-native-paper";
+import { Dialog, IconButton, Portal, Text, Title } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "./components/Dice";
 import Separator from "./components/Separator";
 
-import { Colors } from "./common/Const";
+import { Colors, FontNames } from "./common/Const";
 import {
   DiceTypes,
   useGlobalState,
@@ -60,9 +54,9 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               style={{
                 flex: 1,
                 fontSize: 26,
-                fontWeight: "bold",
+                fontFamily: FontNames.MouldyCheese,
                 textAlign: "center",
-                marginBottom: 12
+                marginBottom: 12,
               }}
             >
               Settings
@@ -75,11 +69,17 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ flex: 1, fontSize: 21, fontWeight: "bold" }}>
+            <Text
+              style={{
+                flex: 1,
+                fontSize: 21,
+                fontFamily: FontNames.MouldyCheese,
+              }}
+            >
               Dice Type
             </Text>
             {DiceTypes.map((dT, i) => (
-              <View key={dT} style={{ flexDirection: "row", }}>
+              <View key={dT} style={{ flexDirection: "row" }}>
                 <Dice
                   title={"5"}
                   isSelected={diceType === dT}
@@ -87,9 +87,7 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
                   isCompact
                   diceType={dT}
                 />
-                {i !== DiceTypes.length - 1 && (
-                  <View style={{ width: 12 }} />
-                )}
+                {i !== DiceTypes.length - 1 && <View style={{ width: 12 }} />}
               </View>
             ))}
           </View>
@@ -100,7 +98,9 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 21, fontWeight: "bold" }}>Sound</Text>
+            <Text style={{ fontSize: 21, fontFamily: FontNames.MouldyCheese }}>
+              Sound
+            </Text>
             <View style={{ flex: 1, alignItems: "flex-end" }}>
               <SegmentedControlTab
                 values={["On", "Off"]}
@@ -112,7 +112,7 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
                 activeTabStyle={{ backgroundColor: Colors.ButtonBG }}
                 tabTextStyle={{
                   color: Colors.ButtonBG,
-                  fontWeight: "bold",
+                  fontFamily: FontNames.MouldyCheese,
                   fontSize: 20,
                 }}
               />
@@ -125,7 +125,7 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 21, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 21, fontFamily: FontNames.MouldyCheese }}>
               No. of Dices
             </Text>
             <View style={{ flex: 1, alignItems: "flex-end" }}>
@@ -145,9 +145,9 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
                 <StepperButton icon={"minus"} onPress={decreaseNoOfDices} />
                 <Text
                   style={{
-                    flex: 1,
+                    flex: 1.1,
                     textAlign: "center",
-                    fontWeight: "bold",
+                    fontFamily: FontNames.MouldyCheese,
                     fontSize: 20,
                   }}
                 >

@@ -7,17 +7,15 @@ import * as Crypto from "expo-crypto";
 
 import Utils from "./common/Utils";
 import ScoreUtils from "./common/ScoreUtils";
-import { Colors, Sounds } from "./common/Const";
 import useUpdateEffect from "./common/CustomHooks";
 import { useGlobalState } from "./common/GlobalState";
+import { Colors, FontNames, Sounds } from "./common/Const";
 
 import Dice from "./components/Dice";
 import GameButton from "./components/GameButton";
 
 import ScoresModal from "./ScoresModal";
 import SettingsModal from "./SettingsModal";
-
-//TODO: expo-fonts to be integrated
 
 const Main = () => {
   const [diceType] = useGlobalState("diceType");
@@ -215,14 +213,18 @@ const Main = () => {
       >
         <View style={{ margin: 12, alignItems: "center" }}>
           <Text
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 44 }}
+            style={{
+              textAlign: "center",
+              fontFamily: FontNames.MouldyCheese,
+              fontSize: 44,
+            }}
           >
             Tenzies
           </Text>
           <Text
             style={{
               textAlign: "center",
-              fontWeight: "bold",
+              fontFamily: FontNames.MouldyCheese,
               fontSize: 18,
             }}
           >
@@ -242,7 +244,7 @@ const Main = () => {
                 flex: 1,
                 fontSize: 24,
                 textAlign: "center",
-                fontWeight: "bold",
+                fontFamily: FontNames.MouldyCheese,
               }}
             >
               {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
@@ -252,7 +254,7 @@ const Main = () => {
                 flex: 1,
                 fontSize: 24,
                 textAlign: "center",
-                fontWeight: "bold",
+                fontFamily: FontNames.MouldyCheese,
               }}
             >
               {noOfRolls} Rolls
@@ -284,46 +286,56 @@ const Main = () => {
           invertedColors={CheckIfAllDicesAreTheSame()}
         />
 
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 12,
-            width: "100%",
-            maxWidth: 480,
-          }}
-        >
-          <Text
+        <View style={{ alignItems: "center" }}>
+          <View
             style={{
-              flex: 1,
-              fontSize: 22,
-              textAlign: "center",
-              fontWeight: "bold",
+              flexDirection: "row",
+              marginTop: 12,
+              width: "100%",
+              maxWidth: 480,
             }}
           >
-            {missedDices}
-            {"\n"}
             <Text
-              style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
+              style={{
+                flex: 1,
+                fontSize: 22,
+                textAlign: "center",
+                fontFamily: FontNames.MouldyCheese,
+              }}
             >
-              Missed Dices
+              {missedDices}
+              {"\n"}
+              <Text
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                  fontFamily: FontNames.MouldyCheese,
+                }}
+              >
+                Missed Dices
+              </Text>
             </Text>
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              fontSize: 22,
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
-          >
-            {missedRolls}
-            {"\n"}
             <Text
-              style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
+              style={{
+                flex: 1,
+                fontSize: 22,
+                textAlign: "center",
+                fontFamily: FontNames.MouldyCheese,
+              }}
             >
-              Missed Rolls
+              {missedRolls}
+              {"\n"}
+              <Text
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                  fontFamily: FontNames.MouldyCheese,
+                }}
+              >
+                Missed Rolls
+              </Text>
             </Text>
-          </Text>
+          </View>
         </View>
       </View>
       {CheckIfAllDicesAreTheSame() && (

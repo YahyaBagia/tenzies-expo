@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
-import { Colors } from "../common/Const";
+import { Colors, FontNames } from "../common/Const";
 
 const GameButton = ({ title, onPress, invertedColors = false }) => {
   return (
@@ -31,7 +31,8 @@ const GameButton = ({ title, onPress, invertedColors = false }) => {
           style={{
             color: invertedColors ? Colors.ButtonBG : "white",
             fontSize: 30,
-            fontWeight: "bold",
+            fontFamily: FontNames.MouldyCheese,
+            letterSpacing: 2,
           }}
           selectable={false}
         >

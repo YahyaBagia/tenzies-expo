@@ -14,3 +14,7 @@ export const Sounds = {
 export const Images = {
   Splash: require("../../assets/splash.png"),
 };
+
+export const FontNames = {
+  MouldyCheese: "MouldyCheese",
+};

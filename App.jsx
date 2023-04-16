@@ -3,10 +3,11 @@ import { View, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from 'expo-font';
 
 import Main from "./src/Main";
 import Utils from "./src/common/Utils";
-import { Colors, Images } from "./src/common/Const";
+import { Colors, FontNames, Images } from "./src/common/Const";
 import { LoadLocallyCachedState } from "./src/common/GlobalState";
 
 const theme = {
@@ -18,12 +19,17 @@ const theme = {
   },
 };
 
+SplashScreen.preventAutoHideAsync();
+
 const App = () => {
   const [isGlobalStateLoaded, setIsGlobalStateLoaded] = useState(false);
 
+  const [fontsLoaded] = useFonts({
+    [FontNames.MouldyCheese]: require('./assets/Fonts/MouldyCheeseRegular.ttf'),
+  });
+
   useEffect(() => {
     (async () => {
-      await SplashScreen.preventAutoHideAsync();
       await LoadLocallyCachedState();
       await Utils.Sleep(2);
       setIsGlobalStateLoaded(true)
@@ -31,7 +37,7 @@ const App = () => {
     })()
   }, [])
 
-  if (!isGlobalStateLoaded)
+  if (!isGlobalStateLoaded || !fontsLoaded)
     return (
       <View style={{ flex: 1, backgroundColor: Colors.Primary }}>
         <Image

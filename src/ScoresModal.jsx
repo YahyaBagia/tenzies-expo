@@ -13,8 +13,8 @@ import Dice from "./components/Dice";
 import Separator from "./components/Separator";
 
 import Utils from "./common/Utils";
-import { Colors } from "./common/Const";
 import ScoreUtils from "./common/ScoreUtils";
+import { Colors, FontNames } from "./common/Const";
 import { useGlobalState } from "./common/GlobalState";
 
 const arrNoOfDices = [4, 6, 8, 10, 12];
@@ -63,7 +63,7 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
               style={{
                 flex: 1,
                 fontSize: 26,
-                fontWeight: "bold",
+                fontFamily: FontNames.MouldyCheese,
                 textAlign: "center",
               }}
             >
@@ -83,7 +83,7 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
                 activeTabStyle={{ backgroundColor: Colors.ButtonBG }}
                 tabTextStyle={{
                   color: Colors.ButtonBG,
-                  fontWeight: "bold",
+                  fontFamily: FontNames.MouldyCheese,
                   fontSize: 20,
                 }}
               />
@@ -139,7 +139,11 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
               onPress={onPressClearScoreboard}
             >
               <Text
-                style={{ color: "white", fontSize: 22, fontWeight: "bold" }}
+                style={{
+                  color: "white",
+                  fontSize: 22,
+                  fontFamily: FontNames.MouldyCheese,
+                }}
               >
                 Clear Scoreboard
               </Text>
@@ -181,7 +185,7 @@ const ScoreItemText = ({ v, halfWidth = false }) => (
     style={{
       flex: halfWidth ? 0.5 : 1,
       textAlign: "center",
-      fontWeight: "bold",
+      fontFamily: FontNames.MouldyCheese,
       fontSize: 22,
       marginHorizontal: 1,
     }}

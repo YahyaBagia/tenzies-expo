@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
-import { Colors } from "../common/Const";
 import { DiceTypes } from "../common/GlobalState";
+import { Colors, FontNames } from "../common/Const";
 
 const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
   const diceSize = isCompact ? 40 : 70;
@@ -34,7 +34,12 @@ const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
 const DiceDigit = ({ title, isCompact }) => {
   const diceFontSize = isCompact ? 25 : 45;
   return (
-    <Text style={{ fontSize: diceFontSize, fontWeight: "bold" }} selectable={false}>{title}</Text>
+    <Text
+      style={{ fontSize: diceFontSize, fontFamily: FontNames.MouldyCheese }}
+      selectable={false}
+    >
+      {title}
+    </Text>
   );
 };
 
@@ -68,16 +73,10 @@ const DiceSymbol = ({ title, isCompact }) => {
   );
   const two_middle = (
     <>
-      <DiceDot
-        dotSize={dotSize}
-        style={{ position: "absolute", right: 0 }}
-      />
-      <DiceDot
-        dotSize={dotSize}
-        style={{ position: "absolute", left: 0 }}
-      />
+      <DiceDot dotSize={dotSize} style={{ position: "absolute", right: 0 }} />
+      <DiceDot dotSize={dotSize} style={{ position: "absolute", left: 0 }} />
     </>
-  )
+  );
   const three = (
     <>
       {one}
@@ -89,19 +88,19 @@ const DiceSymbol = ({ title, isCompact }) => {
       {two}
       {two_mirror}
     </>
-  )
+  );
   const five = (
     <>
       {one}
       {four}
     </>
-  )
+  );
   const six = (
     <>
       {four}
       {two_middle}
     </>
-  )
+  );
 
   return (
     <View
