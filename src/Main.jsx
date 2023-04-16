@@ -4,6 +4,7 @@ import { IconButton, Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
 import * as Crypto from "expo-crypto";
+import { isMobile as isRunningOnMobileDevice } from 'react-device-detect';
 
 import Utils from "./common/Utils";
 import ScoreUtils from "./common/ScoreUtils";
@@ -229,6 +230,7 @@ const Main = () => {
           >
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
+            {isRunningOnMobileDevice === false && "\nPress Space Bar (⎵) to roll the dices."}
           </Text>
           <View
             style={{
