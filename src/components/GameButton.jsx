@@ -9,7 +9,7 @@ const GameButton = ({ title, onPress, invertedColors = false }) => {
       style={{
         overflow: "hidden",
         borderRadius: 12,
-        marginTop: 20,
+        marginTop: 12,
         width: "100%",
         maxWidth: 615,
         alignSelf: "center",

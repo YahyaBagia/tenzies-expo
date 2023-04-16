@@ -3,7 +3,7 @@ import { View, Dimensions } from "react-native";
 import { IconButton, Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
-import * as Crypto from 'expo-crypto';
+import * as Crypto from "expo-crypto";
 
 import Utils from "./common/Utils";
 import ScoreUtils from "./common/ScoreUtils";
@@ -12,12 +12,12 @@ import useUpdateEffect from "./common/CustomHooks";
 import { useGlobalState } from "./common/GlobalState";
 
 import Dice from "./components/Dice";
-import ScoresModal from "./ScoresModal";
-import SettingsModal from "./SettingsModal";
 import GameButton from "./components/GameButton";
 
+import ScoresModal from "./ScoresModal";
+import SettingsModal from "./SettingsModal";
+
 //TODO: expo-fonts to be integrated
-//TODO: Show missed rolls (where selected number was there but user Rolled-away)
 
 const Main = () => {
   const [diceType] = useGlobalState("diceType");
@@ -45,6 +45,8 @@ const Main = () => {
   const [noOfRolls, setNoOfRolls] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [isScoresVisible, setIsScoresVisible] = useState(false);
+  const [missedRolls, setMissedRolls] = useState(0);
+  const [missedDices, setMissedDices] = useState(0);
 
   const leftConfettiRef = useRef();
   const rightConfettiRef = useRef();
@@ -101,6 +103,15 @@ const Main = () => {
     const selectedDices = getSelectedDices();
     if (selectedDices.length > 0) {
       increaseNoOfRolls();
+
+      const { title } = selectedDices[0];
+      const foundUnselected = allDices.filter(
+        ({ title: t, isSelected }) => t === title && !isSelected
+      );
+      if (foundUnselected.length > 0) {
+        setMissedRolls(missedRolls + 1);
+        setMissedDices(missedDices + foundUnselected.length);
+      }
     }
     setAllDices((oldDice) =>
       oldDice.map((die) => (die.isSelected ? die : CreateDice()))
@@ -108,6 +119,8 @@ const Main = () => {
   };
 
   const onPressNewGame = () => {
+    setMissedRolls(0);
+    setMissedDices(0);
     setAllDices(GenerateNewDices());
     resetTimer();
   };
@@ -190,7 +203,7 @@ const Main = () => {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: Colors.Primary,
-        overflow: "hidden"
+        overflow: "hidden",
       }}
       onLayout={onLayoutRootView}
     >
@@ -202,7 +215,7 @@ const Main = () => {
       >
         <View style={{ margin: 12, alignItems: "center" }}>
           <Text
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 50 }}
+            style={{ textAlign: "center", fontWeight: "bold", fontSize: 44 }}
           >
             Tenzies
           </Text>
@@ -210,8 +223,7 @@ const Main = () => {
             style={{
               textAlign: "center",
               fontWeight: "bold",
-              fontSize: 20,
-              marginTop: 8,
+              fontSize: 18,
             }}
           >
             Roll until all dice are the same.{"\n"}Click each die to freeze it
@@ -228,7 +240,7 @@ const Main = () => {
             <Text
               style={{
                 flex: 1,
-                fontSize: 28,
+                fontSize: 24,
                 textAlign: "center",
                 fontWeight: "bold",
               }}
@@ -238,7 +250,7 @@ const Main = () => {
             <Text
               style={{
                 flex: 1,
-                fontSize: 28,
+                fontSize: 24,
                 textAlign: "center",
                 fontWeight: "bold",
               }}
@@ -272,6 +284,47 @@ const Main = () => {
           invertedColors={CheckIfAllDicesAreTheSame()}
         />
 
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 12,
+            width: "100%",
+            maxWidth: 480,
+          }}
+        >
+          <Text
+            style={{
+              flex: 1,
+              fontSize: 22,
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {missedDices}
+            {"\n"}
+            <Text
+              style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
+            >
+              Missed Dices
+            </Text>
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              fontSize: 22,
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {missedRolls}
+            {"\n"}
+            <Text
+              style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
+            >
+              Missed Rolls
+            </Text>
+          </Text>
+        </View>
       </View>
       {CheckIfAllDicesAreTheSame() && (
         <>
@@ -343,7 +396,7 @@ const Main = () => {
         isVisible={isSettingsVisible}
         onDismiss={() => setIsSettingsVisible(false)}
       />
-    </View >
+    </View>
   );
 };
 
