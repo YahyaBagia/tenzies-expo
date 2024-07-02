@@ -1,5 +1,5 @@
-import { ScrollViewStyleReset } from 'expo-router/html';
-import { type PropsWithChildren } from 'react';
+import { ScrollViewStyleReset } from "expo-router/html";
+import { type PropsWithChildren } from "react";
 
 /**
  * This file is web-only and used to configure the root HTML for every web page during static rendering.
@@ -11,7 +11,16 @@ export default function Root({ children }: PropsWithChildren) {
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        {/* Bootstrap the service worker. */}
+        <script dangerouslySetInnerHTML={{ __html: sw }} />
+
+        {/* Link the PWA manifest file. */}
+        <link rel="manifest" href="/tenzies-expo/manifest.json" />
 
         {/*
           Disable body scrolling on web. This makes ScrollView components work closer to how they do on native.
@@ -37,3 +46,15 @@ body {
     background-color: #000;
   }
 }`;
+
+const sw = `
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/tenzies-expo/sw.js').then(registration => {
+            console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(error => {
+            console.error('Service Worker registration failed:', error);
+        });
+    });
+}
+`;

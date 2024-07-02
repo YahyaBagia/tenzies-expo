@@ -1,8 +1,7 @@
 import { createGlobalState } from "react-hooks-global-state";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const DiceTypes = ["Digit", "Symbol"] as const;
-type DiceType = (typeof DiceTypes)[number];
+import { DiceType, DiceTypes } from "../components/Dice/types";
 
 interface GlobalState {
   noOfDices: number;

@@ -5,9 +5,8 @@ import DiceDigit from "./DiceDigit";
 import DiceSymbol from "./DiceSymbol";
 
 import { Colors } from "@/src/common/Const";
-import { DiceTypes } from "@/src/common/GlobalState";
 
-import { DiceNumber } from "./types";
+import { DiceNumber, DiceTypes } from "./types";
 
 interface DiceProps {
   title: DiceNumber;

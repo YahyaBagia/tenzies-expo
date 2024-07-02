@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from "expo-crypto";
 
 import Utils, { ITimerData } from "./Utils";
+import { DiceNumber, DiceType } from "../components/Dice/types";
 
 const SCORE_STORAGE_KEY = "SCORES";
 
@@ -9,9 +10,9 @@ export interface ScoreObject {
   id: string;
   time: ITimerData;
   noOfRolls: number;
-  selectedDice: string;
+  selectedDice: DiceNumber;
   totalSeconds: number;
-  diceType: string;
+  diceType: DiceType;
   noOfDices: number;
 }
 
@@ -25,8 +26,8 @@ export default class ScoreUtils {
   static AddNewScore = async (
     time: ITimerData,
     noOfRolls: number,
-    selectedDice: string,
-    diceType: string,
+    selectedDice: DiceNumber,
+    diceType: DiceType,
     noOfDices: number
   ): Promise<void> => {
     const scoreObj: ScoreObject = {
