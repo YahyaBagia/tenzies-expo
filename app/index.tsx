@@ -14,7 +14,8 @@ import { Colors, FontNames } from "@/src/common/Const";
 import Dice from "@/src/components/Dice";
 import StickyTopButton from "@/src/components/StickyTopButton";
 import MissedCounters from "@/src/components/MissedCounters";
-import useGameController from "@/controllers/GameController";
+
+import useGameController from "@/src/controllers/GameController";
 
 const Main = () => {
   const {
