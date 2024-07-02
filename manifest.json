@@ -1,8 +1,0 @@
-{
-  "background_color": "#ffffff",
-  "display": "standalone",
-  "lang": "en",
-  "name": "tenzies-expo",
-  "short_name": "tenzies-expo",
-  "start_url": "/?utm_source=web_app_manifest"
-}
