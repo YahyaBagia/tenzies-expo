@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, StyleSheet } from "react-native";
 
 import { FontNames } from "@/src/common/Const";

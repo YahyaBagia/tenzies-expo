@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import {
   Dialog,
   Portal,
@@ -28,7 +28,6 @@ interface IScoresModalProps {
 
 const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
   const [diceType] = useGlobalState("diceType");
-
   const [scores, setScores] = useState<ScoreObject[]>([]);
   const [selectedNoOfDices, setSelectedNoOfDices] = useState(
     arrNoOfDices[arrNoOfDices.length - 1]
@@ -53,46 +52,23 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
 
   return (
     <Portal>
-      <Dialog
-        visible={isVisible}
-        onDismiss={onDismiss}
-        style={{
-          maxWidth: 470,
-          maxHeight: 680,
-          width: "92%",
-          alignSelf: "center",
-          backgroundColor: Colors.Primary,
-        }}
-      >
-        <Dialog.ScrollArea style={{ borderColor: "transparent" }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Title
-              style={{
-                flex: 1,
-                fontSize: 26,
-                fontFamily: FontNames.MouldyCheese,
-                textAlign: "center",
-              }}
-            >
-              Scoreboard
-            </Title>
+      <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.dialog}>
+        <Dialog.ScrollArea style={styles.scrollArea}>
+          <View style={styles.titleContainer}>
+            <Title style={styles.title}>Scoreboard</Title>
           </View>
           <Separator />
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View style={styles.segmentedControlContainer}>
             <Dice title={"5"} isCompact diceType={diceType} />
-            <View style={{ flex: 1, marginHorizontal: 4 }}>
+            <View style={styles.segmentedControlWrapper}>
               <SegmentedControlTab
                 values={arrNoOfDices.map((v) => `${v}`)}
                 selectedIndex={arrNoOfDices.indexOf(selectedNoOfDices)}
                 onTabPress={(i) => setSelectedNoOfDices(arrNoOfDices[i])}
                 borderRadius={12}
-                tabStyle={{ borderWidth: 3, borderColor: Colors.Highlight }}
-                activeTabStyle={{ backgroundColor: Colors.ButtonBG }}
-                tabTextStyle={{
-                  color: Colors.ButtonBG,
-                  fontFamily: FontNames.MouldyCheese,
-                  fontSize: 20,
-                }}
+                tabStyle={styles.segmentedControlTab}
+                activeTabStyle={styles.segmentedControlActiveTab}
+                tabTextStyle={styles.segmentedControlTabText}
               />
             </View>
             <Dice title={"5"} isCompact diceType={diceType} />
@@ -106,17 +82,7 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
             )}
             keyExtractor={({ id }) => id}
             ListHeaderComponent={() => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginVertical: 4,
-                  borderRadius: 12,
-                  borderWidth: 3,
-                  borderColor: Colors.ButtonBG,
-                  padding: 2,
-                }}
-              >
+              <View style={styles.listHeader}>
                 <ScoreItemText value={"#"} compact />
                 <ScoreItemText value={"Time"} />
                 <ScoreItemText value={"Rolls"} />
@@ -126,34 +92,12 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
           />
         </Dialog.ScrollArea>
         <Dialog.Actions>
-          <View
-            style={{
-              overflow: "hidden",
-              borderRadius: 12,
-              width: "100%",
-              maxWidth: 615,
-              alignSelf: "center",
-            }}
-          >
+          <View style={styles.clearButtonContainer}>
             <TouchableRipple
-              style={{
-                borderRadius: 12,
-                backgroundColor: Colors.ButtonBG,
-                height: 46,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              style={styles.clearButton}
               onPress={onPressClearScoreboard}
             >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: 22,
-                  fontFamily: FontNames.MouldyCheese,
-                }}
-              >
-                Clear Scoreboard
-              </Text>
+              <Text style={styles.clearButtonText}>Clear Scoreboard</Text>
             </TouchableRipple>
           </View>
         </Dialog.Actions>
@@ -161,5 +105,76 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
     </Portal>
   );
 };
+
+const styles = StyleSheet.create({
+  dialog: {
+    maxWidth: 470,
+    maxHeight: 680,
+    width: "92%",
+    alignSelf: "center",
+    backgroundColor: Colors.Primary,
+  },
+  scrollArea: {
+    borderColor: "transparent",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  title: {
+    flex: 1,
+    fontSize: 26,
+    fontFamily: FontNames.MouldyCheese,
+    textAlign: "center",
+  },
+  segmentedControlContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  segmentedControlWrapper: {
+    flex: 1,
+    marginHorizontal: 4,
+  },
+  segmentedControlTab: {
+    borderWidth: 3,
+    borderColor: Colors.Highlight,
+  },
+  segmentedControlActiveTab: {
+    backgroundColor: Colors.ButtonBG,
+  },
+  segmentedControlTabText: {
+    color: Colors.ButtonBG,
+    fontFamily: FontNames.MouldyCheese,
+    fontSize: 20,
+  },
+  listHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+    borderRadius: 12,
+    borderWidth: 3,
+    borderColor: Colors.ButtonBG,
+    padding: 2,
+  },
+  clearButtonContainer: {
+    overflow: "hidden",
+    borderRadius: 12,
+    width: "100%",
+    maxWidth: 615,
+    alignSelf: "center",
+  },
+  clearButton: {
+    borderRadius: 12,
+    backgroundColor: Colors.ButtonBG,
+    height: 46,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  clearButtonText: {
+    color: "white",
+    fontSize: 22,
+    fontFamily: FontNames.MouldyCheese,
+  },
+});
 
 export default ScoresModal;
