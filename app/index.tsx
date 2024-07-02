@@ -1,28 +1,36 @@
 import { useState, useRef, useEffect } from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, LayoutChangeEvent } from "react-native";
 import { IconButton, Text, TouchableRipple } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
 import * as Crypto from "expo-crypto";
-import { isMobile as isRunningOnMobileDevice } from 'react-device-detect';
+import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
 
-import Utils from "./common/Utils";
-import ScoreUtils from "./common/ScoreUtils";
-import useUpdateEffect from "./common/CustomHooks";
-import { useGlobalState } from "./common/GlobalState";
-import { Colors, FontNames, Sounds } from "./common/Const";
+import Dice from "@/src/components/Dice";
+import GameButton from "@/src/components/GameButton";
 
-import Dice from "./components/Dice";
-import GameButton from "./components/GameButton";
+import ScoresModal from "@/src/modals/ScoresModal";
+import SettingsModal from "@/src/modals/SettingsModal";
 
-import ScoresModal from "./ScoresModal";
-import SettingsModal from "./SettingsModal";
+import Utils from "@/src/common/Utils";
+import ScoreUtils from "@/src/common/ScoreUtils";
+import useUpdateEffect from "@/src/common/CustomHooks";
+import { useGlobalState } from "@/src/common/GlobalState";
+import { Colors, FontNames, Sounds } from "@/src/common/Const";
+
+type ConfettiCannonRef = React.ElementRef<typeof ConfettiCannon>;
+
+interface IDice {
+  title: string;
+  isSelected: boolean;
+  id: string;
+}
 
 const Main = () => {
   const [diceType] = useGlobalState("diceType");
   const [noOfDices] = useGlobalState("noOfDices");
 
-  const CreateDice = () => ({
+  const CreateDice = (): IDice => ({
     title: `${Math.ceil(Math.random() * 6)}`,
     isSelected: false,
     id: Crypto.randomUUID(),
@@ -47,8 +55,8 @@ const Main = () => {
   const [missedRolls, setMissedRolls] = useState(0);
   const [missedDices, setMissedDices] = useState(0);
 
-  const leftConfettiRef = useRef();
-  const rightConfettiRef = useRef();
+  const leftConfettiRef = useRef<ConfettiCannonRef>(null);
+  const rightConfettiRef = useRef<ConfettiCannonRef>(null);
 
   const getSelectedDices = () => allDices.filter((die) => die.isSelected);
 
@@ -89,8 +97,8 @@ const Main = () => {
   const resetNoOfRolls = () => setNoOfRolls(0);
 
   const startConfettis = () => {
-    leftConfettiRef.current.start();
-    rightConfettiRef.current.start();
+    leftConfettiRef.current?.start();
+    rightConfettiRef.current?.start();
   };
 
   const onPress_NewGame_or_Roll = () => {
@@ -124,7 +132,7 @@ const Main = () => {
     resetTimer();
   };
 
-  const onPressDie = ({ id, title }) => {
+  const onPressDie = ({ id, title }: IDice) => {
     if (CheckIfAllDicesAreTheSame()) return;
     Utils.PlaySound(Sounds.Dice_Click);
     const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
@@ -166,8 +174,8 @@ const Main = () => {
     return splittedArrays;
   };
 
-  const onLayoutRootView = (l) => {
-    const { width } = l.nativeEvent.layout;
+  const onLayoutRootView = (layoutChangeEvent: LayoutChangeEvent) => {
+    const { width } = layoutChangeEvent.nativeEvent.layout;
     calculateNoOfRows(width);
   };
 
@@ -230,7 +238,8 @@ const Main = () => {
           >
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
-            {isRunningOnMobileDevice === false && "\nPress Space Bar (⎵) to roll the dices."}
+            {isRunningOnMobileDevice === false &&
+              "\nPress Space Bar (⎵) to roll the dices."}
           </Text>
           <View
             style={{

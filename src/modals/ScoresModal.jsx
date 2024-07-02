@@ -9,13 +9,13 @@ import {
 } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
-import Dice from "./components/Dice";
-import Separator from "./components/Separator";
+import Dice from "@/src/components/Dice";
+import Separator from "@/src/components/Separator";
 
-import Utils from "./common/Utils";
-import ScoreUtils from "./common/ScoreUtils";
-import { Colors, FontNames } from "./common/Const";
-import { useGlobalState } from "./common/GlobalState";
+import Utils from "@/src/common/Utils";
+import ScoreUtils from "@/src/common/ScoreUtils";
+import { Colors, FontNames } from "@/src/common/Const";
+import { useGlobalState } from "@/src/common/GlobalState";
 
 const arrNoOfDices = [4, 6, 8, 10, 12];
 

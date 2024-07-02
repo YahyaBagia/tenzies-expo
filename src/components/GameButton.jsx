@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
-import { Colors, FontNames } from "../common/Const";
+import { Colors, FontNames } from "@/src/common/Const";
 
 const GameButton = ({ title, onPress, invertedColors = false }) => {
   return (

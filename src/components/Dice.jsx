@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
-import { DiceTypes } from "../common/GlobalState";
-import { Colors, FontNames } from "../common/Const";
+import { DiceTypes } from "@/src/common/GlobalState";
+import { Colors, FontNames } from "@/src/common/Const";
 
-const Dice = ({ title, isSelected, onPress, isCompact, diceType }) => {
+const Dice = ({ title, isSelected, onPress, isCompact = false, diceType }) => {
   const diceSize = isCompact ? 40 : 70;
   return (
     <View style={{ overflow: "hidden", borderRadius: 12 }}>

@@ -2,17 +2,17 @@ import { View } from "react-native";
 import { Dialog, IconButton, Portal, Text, Title } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
-import Dice from "./components/Dice";
-import Separator from "./components/Separator";
+import Dice from "@/src/components/Dice";
+import Separator from "@/src/components/Separator";
 
-import { Colors, FontNames } from "./common/Const";
+import { Colors, FontNames } from "@/src/common/Const";
 import {
   DiceTypes,
   useGlobalState,
   SetNoOfDices,
   SetDiceType,
   SetSoundEnabled,
-} from "./common/GlobalState";
+} from "@/src/common/GlobalState";
 
 const SettingsModal = ({ isVisible, onDismiss }) => {
   const [noOfDices] = useGlobalState("noOfDices");
