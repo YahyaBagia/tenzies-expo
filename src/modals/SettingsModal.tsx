@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { Dialog, IconButton, Portal, Text, Title } from "react-native-paper";
+import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "@/src/components/Dice";
@@ -14,21 +15,25 @@ import {
   SetSoundEnabled,
 } from "@/src/common/GlobalState";
 
-const SettingsModal = ({ isVisible, onDismiss }) => {
+interface ISettingsModalProps {
+  isVisible: boolean;
+  onDismiss: () => void;
+}
+
+const SettingsModal: React.FC<ISettingsModalProps> = ({
+  isVisible,
+  onDismiss,
+}) => {
   const [noOfDices] = useGlobalState("noOfDices");
   const [diceType] = useGlobalState("diceType");
   const [soundEnabled] = useGlobalState("soundEnabled");
 
   const decreaseNoOfDices = () => {
-    if (noOfDices > 4) {
-      SetNoOfDices(noOfDices - 2);
-    }
+    if (noOfDices > 4) SetNoOfDices(noOfDices - 2);
   };
 
   const increaseNoOfDices = () => {
-    if (noOfDices < 12) {
-      SetNoOfDices(noOfDices + 2);
-    }
+    if (noOfDices < 12) SetNoOfDices(noOfDices + 2);
   };
 
   return (
@@ -165,7 +170,12 @@ const SettingsModal = ({ isVisible, onDismiss }) => {
 
 export default SettingsModal;
 
-const StepperButton = ({ icon, onPress }) => (
+interface IStepperButtonProps {
+  icon: IconSource;
+  onPress: () => void;
+}
+
+const StepperButton: React.FC<IStepperButtonProps> = ({ icon, onPress }) => (
   <View
     style={{
       flex: 1,

@@ -17,6 +17,7 @@ import ScoreUtils from "@/src/common/ScoreUtils";
 import useUpdateEffect from "@/src/common/CustomHooks";
 import { useGlobalState } from "@/src/common/GlobalState";
 import { Colors, FontNames, Sounds } from "@/src/common/Const";
+import StickyTopButton from "@/src/components/StickyTopButton";
 
 type ConfettiCannonRef = React.ElementRef<typeof ConfettiCannon>;
 
@@ -368,48 +369,16 @@ const Main = () => {
           />
         </>
       )}
-      <TouchableRipple
-        style={{
-          position: "absolute",
-          top: 44,
-          right: -3,
-          backgroundColor: Colors.Highlight,
-          borderTopLeftRadius: 12,
-          borderBottomLeftRadius: 12,
-          borderWidth: 3,
-          borderColor: Colors.ButtonBG,
-          overflow: "hidden",
-        }}
+      <StickyTopButton
+        icon={"cog"}
         onPress={() => setIsSettingsVisible(true)}
-      >
-        <IconButton
-          icon={"cog"}
-          iconColor={Colors.ButtonBG}
-          style={{ margin: 0, marginHorizontal: 12 }}
-          size={30}
-        />
-      </TouchableRipple>
-      <TouchableRipple
-        style={{
-          position: "absolute",
-          top: 44,
-          left: -3,
-          backgroundColor: Colors.Highlight,
-          borderTopRightRadius: 12,
-          borderBottomRightRadius: 12,
-          borderWidth: 3,
-          borderColor: Colors.ButtonBG,
-          overflow: "hidden",
-        }}
+        position="left"
+      />
+      <StickyTopButton
+        icon={"trophy"}
         onPress={() => setIsScoresVisible(true)}
-      >
-        <IconButton
-          icon={"trophy"}
-          iconColor={Colors.ButtonBG}
-          style={{ margin: 0, marginHorizontal: 12 }}
-          size={30}
-        />
-      </TouchableRipple>
+        position="right"
+      />
       <ScoresModal
         isVisible={isScoresVisible}
         onDismiss={() => setIsScoresVisible(false)}

@@ -9,20 +9,27 @@ import {
 } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
+import ScoreItem from "./components/ScoreItem";
+import ScoreItemText from "./components/ScoreItemText";
+
 import Dice from "@/src/components/Dice";
 import Separator from "@/src/components/Separator";
 
-import Utils from "@/src/common/Utils";
-import ScoreUtils from "@/src/common/ScoreUtils";
 import { Colors, FontNames } from "@/src/common/Const";
 import { useGlobalState } from "@/src/common/GlobalState";
+import ScoreUtils, { ScoreObject } from "@/src/common/ScoreUtils";
 
 const arrNoOfDices = [4, 6, 8, 10, 12];
 
-const ScoresModal = ({ isVisible, onDismiss }) => {
+interface IScoresModalProps {
+  isVisible: boolean;
+  onDismiss: () => void;
+}
+
+const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
   const [diceType] = useGlobalState("diceType");
 
-  const [scores, setScores] = useState([]);
+  const [scores, setScores] = useState<ScoreObject[]>([]);
   const [selectedNoOfDices, setSelectedNoOfDices] = useState(
     arrNoOfDices[arrNoOfDices.length - 1]
   );
@@ -95,7 +102,7 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
               ({ noOfDices }) => noOfDices === selectedNoOfDices
             )}
             renderItem={({ item, index }) => (
-              <ScoreItem scoreObj={item} index={index} />
+              <ScoreItem score={item} index={index} />
             )}
             keyExtractor={({ id }) => id}
             ListHeaderComponent={() => (
@@ -110,10 +117,10 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
                   padding: 2,
                 }}
               >
-                <ScoreItemText v={"#"} halfWidth />
-                <ScoreItemText v={"Time"} />
-                <ScoreItemText v={"Rolls"} />
-                <ScoreItemText v={"Dice"} />
+                <ScoreItemText value={"#"} compact />
+                <ScoreItemText value={"Time"} />
+                <ScoreItemText value={"Rolls"} />
+                <ScoreItemText value={"Dice"} />
               </View>
             )}
           />
@@ -154,44 +161,5 @@ const ScoresModal = ({ isVisible, onDismiss }) => {
     </Portal>
   );
 };
-
-const ScoreItem = ({ scoreObj, index }) => {
-  const { id, time, noOfRolls, selectedDice, diceType } = scoreObj;
-  const timeTaken = Utils.GetTimerText(time);
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 4,
-        borderRadius: 12,
-        borderWidth: 3,
-        borderColor: Colors.ButtonBG,
-        padding: 2,
-      }}
-    >
-      <ScoreItemText v={index + 1} halfWidth />
-      <ScoreItemText v={timeTaken} />
-      <ScoreItemText v={noOfRolls} />
-      <View style={{ flex: 1, alignItems: "center" }}>
-        <Dice diceType={diceType} isCompact title={selectedDice} />
-      </View>
-    </View>
-  );
-};
-
-const ScoreItemText = ({ v, halfWidth = false }) => (
-  <Text
-    style={{
-      flex: halfWidth ? 0.5 : 1,
-      textAlign: "center",
-      fontFamily: FontNames.MouldyCheese,
-      fontSize: 22,
-      marginHorizontal: 1,
-    }}
-  >
-    {v}
-  </Text>
-);
 
 export default ScoresModal;

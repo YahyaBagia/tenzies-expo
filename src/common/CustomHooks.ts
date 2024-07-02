@@ -1,6 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, DependencyList, EffectCallback } from "react";
 
-const useUpdateEffect = (effect, dependencies = []) => {
+const useUpdateEffect = (
+  effect: EffectCallback,
+  dependencies: DependencyList = []
+) => {
   const isInitialMount = useRef(true);
 
   useEffect(() => {

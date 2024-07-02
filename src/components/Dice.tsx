@@ -1,10 +1,24 @@
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
 import { DiceTypes } from "@/src/common/GlobalState";
 import { Colors, FontNames } from "@/src/common/Const";
 
-const Dice = ({ title, isSelected, onPress, isCompact = false, diceType }) => {
+interface DiceProps {
+  title: string;
+  isSelected?: boolean;
+  onPress?: () => void;
+  isCompact?: boolean;
+  diceType: string;
+}
+
+const Dice: React.FC<DiceProps> = ({
+  title,
+  isSelected,
+  onPress,
+  isCompact = false,
+  diceType,
+}) => {
   const diceSize = isCompact ? 40 : 70;
   return (
     <View style={{ overflow: "hidden", borderRadius: 12 }}>
@@ -31,7 +45,12 @@ const Dice = ({ title, isSelected, onPress, isCompact = false, diceType }) => {
   );
 };
 
-const DiceDigit = ({ title, isCompact }) => {
+interface DiceDigitProps {
+  title: string;
+  isCompact: boolean;
+}
+
+const DiceDigit: React.FC<DiceDigitProps> = ({ title, isCompact }) => {
   const diceFontSize = isCompact ? 25 : 45;
   return (
     <Text
@@ -43,7 +62,12 @@ const DiceDigit = ({ title, isCompact }) => {
   );
 };
 
-const DiceSymbol = ({ title, isCompact }) => {
+interface DiceSymbolProps {
+  title: string;
+  isCompact: boolean;
+}
+
+const DiceSymbol: React.FC<DiceSymbolProps> = ({ title, isCompact }) => {
   const dotSize = isCompact ? 8 : 15;
 
   const one = <DiceDot dotSize={dotSize} />;
@@ -121,7 +145,12 @@ const DiceSymbol = ({ title, isCompact }) => {
   );
 };
 
-const DiceDot = ({ dotSize, style }) => (
+interface DiceDotProps {
+  dotSize: number;
+  style?: ViewStyle;
+}
+
+const DiceDot: React.FC<DiceDotProps> = ({ dotSize, style }) => (
   <View
     style={{
       borderRadius: dotSize / 2,
