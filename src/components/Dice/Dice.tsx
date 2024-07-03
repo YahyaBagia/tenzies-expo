@@ -6,14 +6,15 @@ import DiceSymbol from "./DiceSymbol";
 
 import { Colors } from "@/src/common/Const";
 
-import { DiceNumber, DiceTypes } from "./types";
+import { DiceNumber, DiceType, DiceTypes } from "./types";
+import { useGlobalState } from "@/src/common/GlobalState";
 
 interface DiceProps {
   title: DiceNumber;
   isSelected?: boolean;
   onPress?: () => void;
   isCompact?: boolean;
-  diceType: string;
+  diceType?: DiceType;
 }
 
 const COMPACT_SIZE = 40;
@@ -26,6 +27,11 @@ const Dice: React.FC<DiceProps> = ({
   isCompact = false,
   diceType,
 }) => {
+  const [g_diceType] = useGlobalState("diceType");
+  if (!diceType) {
+    diceType = g_diceType;
+  }
+
   const diceSize = isCompact ? COMPACT_SIZE : REGULAR_SIZE;
   const DiceContent = diceType === DiceTypes[0] ? DiceDigit : DiceSymbol;
 

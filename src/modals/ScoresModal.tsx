@@ -27,7 +27,6 @@ interface IScoresModalProps {
 }
 
 const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
-  const [diceType] = useGlobalState("diceType");
   const [scores, setScores] = useState<ScoreObject[]>([]);
   const [selectedNoOfDices, setSelectedNoOfDices] = useState(
     arrNoOfDices[arrNoOfDices.length - 1]
@@ -59,7 +58,7 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
           </View>
           <Separator />
           <View style={styles.segmentedControlContainer}>
-            <Dice title={"5"} isCompact diceType={diceType} />
+            <Dice title={"5"} isCompact />
             <View style={styles.segmentedControlWrapper}>
               <SegmentedControlTab
                 values={arrNoOfDices.map((v) => `${v}`)}
@@ -71,7 +70,7 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
                 tabTextStyle={styles.segmentedControlTabText}
               />
             </View>
-            <Dice title={"5"} isCompact diceType={diceType} />
+            <Dice title={"5"} isCompact />
           </View>
           <FlatList
             data={scores.filter(

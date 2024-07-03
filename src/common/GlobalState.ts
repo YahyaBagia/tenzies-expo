@@ -39,6 +39,16 @@ export const SetDiceType = (value: DiceType): void => {
 
 //#endregion
 
+//#region - Getters
+
+export const GetNoOfDices = (): number => getGlobalState("noOfDices");
+
+export const GetSoundEnabled = (): boolean => getGlobalState("soundEnabled");
+
+export const GetDiceType = (): DiceType => getGlobalState("diceType");
+
+//#endregion
+
 //#region - Persisting Global State
 
 const CacheStateLocally = async (): Promise<void> => {
@@ -55,6 +65,8 @@ export const LoadLocallyCachedState = async (): Promise<boolean> => {
   let currentState: GlobalState = { ...initialState };
   const stateKeys = Object.keys(initialState) as Array<keyof GlobalState>;
   const strLocallyCachedState = await AsyncStorage.getItem(CACHED_STATE);
+  console.log("strLocallyCachedState", strLocallyCachedState);
+
   const locallyCachedState = strLocallyCachedState
     ? (JSON.parse(strLocallyCachedState) as Partial<GlobalState>)
     : null;

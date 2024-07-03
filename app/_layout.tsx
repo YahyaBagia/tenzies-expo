@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 
-import { Colors, FontNames } from "@/src/common/Const";
+import { Colors, FontNames, Images } from "@/src/common/Const";
+import Utils from "@/src/common/Utils";
+import { LoadLocallyCachedState } from "@/src/common/GlobalState";
+import { Image, View } from "react-native";
 
 const theme = {
   ...DefaultTheme,
@@ -20,17 +23,35 @@ const theme = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
+  const [fontLoaded] = useFonts({
     [FontNames.MouldyCheese]: require("@/assets/Fonts/MouldyCheeseRegular.ttf"),
   });
+  const [isGlobalStateLoaded, setIsGlobalStateLoaded] = useState(false);
 
   useEffect(() => {
-    if (loaded) {
+    (async () => {
+      await LoadLocallyCachedState();
+      await Utils.Sleep(1.5);
+      setIsGlobalStateLoaded(true);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (fontLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontLoaded, isGlobalStateLoaded]);
 
-  if (!loaded) return null;
+  if (!fontLoaded || !isGlobalStateLoaded)
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.Primary }}>
+        <Image
+          source={Images.Splash}
+          style={{ height: "100%", width: "100%" }}
+          resizeMode={"contain"}
+        />
+      </View>
+    );
 
   return (
     <PaperProvider theme={theme}>

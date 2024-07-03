@@ -3,6 +3,7 @@ import * as Crypto from "expo-crypto";
 
 import Utils, { ITimerData } from "./Utils";
 import { DiceNumber, DiceType } from "../components/Dice/types";
+import { GetDiceType } from "./GlobalState";
 
 const SCORE_STORAGE_KEY = "SCORES";
 
@@ -27,9 +28,10 @@ export default class ScoreUtils {
     time: ITimerData,
     noOfRolls: number,
     selectedDice: DiceNumber,
-    diceType: DiceType,
+    // diceType: DiceType,
     noOfDices: number
   ): Promise<void> => {
+    const diceType = GetDiceType();
     const scoreObj: ScoreObject = {
       id: Crypto.randomUUID(),
       time,

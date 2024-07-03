@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: FontNames.MouldyCheese,
     letterSpacing: 2,
+    marginTop: 8, // To center the text
   },
 });
 

@@ -20,7 +20,7 @@ import useGameController from "@/src/controllers/GameController";
 const Main = () => {
   const {
     allDices,
-    diceType,
+    // diceType,
     noOfRows,
     noOfRolls,
     missedDices,
@@ -63,7 +63,7 @@ const Main = () => {
         title={title}
         isSelected={isSelected}
         onPress={() => onPressDie(allDices[index])}
-        diceType={diceType}
+        // diceType={diceType}
       />
     ));
 

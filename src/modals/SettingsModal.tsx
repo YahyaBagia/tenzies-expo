@@ -8,12 +8,12 @@ import StepperButton from "./components/StepperButton";
 
 import { Colors, FontNames } from "@/src/common/Const";
 import {
-  DiceTypes,
   useGlobalState,
   SetNoOfDices,
   SetDiceType,
   SetSoundEnabled,
 } from "@/src/common/GlobalState";
+import { DiceTypes } from "../components/Dice/types";
 
 interface ISettingsModalProps {
   isVisible: boolean;
