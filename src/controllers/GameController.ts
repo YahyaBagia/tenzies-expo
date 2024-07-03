@@ -20,7 +20,6 @@ interface IDice {
 }
 
 const useGameController = () => {
-  // const [diceType] = useGlobalState("diceType");
   const [noOfDices] = useGlobalState("noOfDices");
 
   const CreateDice = (): IDice => ({
@@ -70,7 +69,6 @@ const useGameController = () => {
         { tHours, tMinutes, tSeconds },
         noOfRolls,
         selectedDices[0].title,
-        // diceType,
         noOfDices
       );
     }
@@ -171,7 +169,6 @@ const useGameController = () => {
 
   return {
     allDices,
-    // diceType,
     noOfRows,
     noOfRolls,
     missedDices,

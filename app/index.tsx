@@ -1,9 +1,7 @@
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
-
-import GameButton from "@/src/components/GameButton";
 
 import ScoresModal from "@/src/modals/ScoresModal";
 import SettingsModal from "@/src/modals/SettingsModal";
@@ -12,15 +10,16 @@ import Utils from "@/src/common/Utils";
 import { Colors, FontNames } from "@/src/common/Const";
 
 import Dice from "@/src/components/Dice";
+import GameHeader from "@/src/components/GameHeader";
+import GameFooter from "@/src/components/GameFooter";
+import GameButton from "@/src/components/GameButton";
 import StickyTopButton from "@/src/components/StickyTopButton";
-import MissedCounters from "@/src/components/MissedCounters";
 
 import useGameController from "@/src/controllers/GameController";
 
 const Main = () => {
   const {
     allDices,
-    // diceType,
     noOfRows,
     noOfRolls,
     missedDices,
@@ -63,7 +62,6 @@ const Main = () => {
         title={title}
         isSelected={isSelected}
         onPress={() => onPressDie(allDices[index])}
-        // diceType={diceType}
       />
     ));
 
@@ -78,88 +76,27 @@ const Main = () => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: Colors.Primary,
-        overflow: "hidden",
-      }}
-      onLayout={onLayoutRootView}
-    >
-      <View
-        style={{
-          justifyContent: "center",
-          width: "90%",
-        }}
-      >
-        <View style={{ margin: 12, alignItems: "center" }}>
-          <Text
-            style={{
-              textAlign: "center",
-              fontFamily: FontNames.MouldyCheese,
-              fontSize: 44,
-            }}
-          >
-            Tenzies
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              fontFamily: FontNames.MouldyCheese,
-              fontSize: 18,
-            }}
-          >
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <View style={styles.innerContainer}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.title}>Tenzies</Text>
+          <Text style={styles.instructions}>
             Roll until all dice are the same.{"\n"}Click each die to freeze it
             at its current value between rolls.
             {isRunningOnMobileDevice === false &&
               "\nPress Space Bar (⎵) to roll the dices."}
           </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 12,
-              width: "100%",
-              maxWidth: 480,
-            }}
-          >
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 24,
-                textAlign: "center",
-                fontFamily: FontNames.MouldyCheese,
-              }}
-            >
-              {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                fontSize: 24,
-                textAlign: "center",
-                fontFamily: FontNames.MouldyCheese,
-              }}
-            >
-              {noOfRolls} Rolls
-            </Text>
-          </View>
+          <GameHeader
+            tHours={tHours}
+            tMinutes={tMinutes}
+            tSeconds={tSeconds}
+            noOfRolls={noOfRolls}
+          />
         </View>
 
-        <View style={{ alignItems: "center" }}>
+        <View style={styles.diceContainer}>
           {GetDiceElements().map((dices, i) => (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                marginVertical: 8,
-                minWidth: Utils.IsOnWeb() ? 400 : "100%",
-                maxWidth: 650,
-                width: "100%",
-              }}
-              key={`${i}`}
-            >
+            <View style={styles.diceRow} key={`${i}`}>
               {dices}
             </View>
           ))}
@@ -171,7 +108,7 @@ const Main = () => {
           invertedColors={CheckIfAllDicesAreTheSame()}
         />
 
-        <MissedCounters missedDices={missedDices} missedRolls={missedRolls} />
+        <GameFooter missedDices={missedDices} missedRolls={missedRolls} />
       </View>
       {CheckIfAllDicesAreTheSame() && (
         <>
@@ -214,5 +151,46 @@ const Main = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.Primary,
+    overflow: "hidden",
+  },
+  innerContainer: {
+    justifyContent: "center",
+    width: "90%",
+  },
+  headerContainer: {
+    margin: 12,
+    alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontFamily: FontNames.MouldyCheese,
+    fontSize: 44,
+    letterSpacing: 5,
+  },
+  instructions: {
+    textAlign: "center",
+    fontFamily: FontNames.MouldyCheese,
+    fontSize: 18,
+    letterSpacing: 0.3,
+  },
+  diceContainer: {
+    alignItems: "center",
+  },
+  diceRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 8,
+    minWidth: Utils.IsOnWeb() ? 400 : "100%",
+    maxWidth: 650,
+    width: "100%",
+  },
+});
 
 export default Main;

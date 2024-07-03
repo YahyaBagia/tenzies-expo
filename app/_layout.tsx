@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
 import "react-native-reanimated";
+import { useEffect, useState } from "react";
+import { Image, View, StyleSheet } from "react-native";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
+import { Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
-import { Colors, FontNames, Images } from "@/src/common/Const";
 import Utils from "@/src/common/Utils";
+import { Colors, FontNames, Images } from "@/src/common/Const";
 import { LoadLocallyCachedState } from "@/src/common/GlobalState";
-import { Image, View } from "react-native";
 
 const theme = {
   ...DefaultTheme,
@@ -31,7 +31,7 @@ export default function RootLayout() {
   useEffect(() => {
     (async () => {
       await LoadLocallyCachedState();
-      await Utils.Sleep(1.5);
+      await Utils.Sleep(1);
       setIsGlobalStateLoaded(true);
     })();
   }, []);
@@ -44,10 +44,10 @@ export default function RootLayout() {
 
   if (!fontLoaded || !isGlobalStateLoaded)
     return (
-      <View style={{ flex: 1, backgroundColor: Colors.Primary }}>
+      <View style={styles.splashContainer}>
         <Image
           source={Images.Splash}
-          style={{ height: "100%", width: "100%" }}
+          style={styles.splashImage}
           resizeMode={"contain"}
         />
       </View>
@@ -56,9 +56,20 @@ export default function RootLayout() {
   return (
     <PaperProvider theme={theme}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="index" options={{ title: "Tenzies" }} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </PaperProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    backgroundColor: Colors.Primary,
+  },
+  splashImage: {
+    height: "100%",
+    width: "100%",
+  },
+});

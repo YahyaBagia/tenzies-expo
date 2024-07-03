@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
 
@@ -10,23 +10,28 @@ interface IStepperButtonProps {
 }
 
 const StepperButton: React.FC<IStepperButtonProps> = ({ icon, onPress }) => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: Colors.ButtonBG,
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100%",
-    }}
-  >
+  <View style={styles.container}>
     <IconButton
       icon={icon}
       size={28}
       onPress={onPress}
-      style={{ margin: 0 }}
+      style={styles.iconButton}
       iconColor={Colors.Highlight}
     />
   </View>
 );
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.ButtonBG,
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+  },
+  iconButton: {
+    margin: 0,
+  },
+});
 
 export default StepperButton;
