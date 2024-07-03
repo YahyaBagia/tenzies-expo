@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
+import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
 
 import Utils from "../common/Utils";
 import { FontNames } from "../common/Const";
@@ -17,16 +18,41 @@ const GameHeader: React.FC<IGameHeaderProps> = ({
   noOfRolls,
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
+    <View style={styles.headerContainer}>
+      <Text style={styles.title}>Tenzies</Text>
+      <Text style={styles.instructions}>
+        Roll until all dice are the same.{"\n"}Click each die to freeze it at
+        its current value between rolls.
+        {isRunningOnMobileDevice === false &&
+          "\nPress Space Bar (⎵) to roll the dices."}
       </Text>
-      <Text style={styles.text}>{noOfRolls} Rolls</Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>
+          {Utils.GetTimerText({ tHours, tMinutes, tSeconds })}
+        </Text>
+        <Text style={styles.text}>{noOfRolls} Rolls</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    margin: 12,
+    alignItems: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontFamily: FontNames.MouldyCheese,
+    fontSize: 44,
+    letterSpacing: 5,
+  },
+  instructions: {
+    textAlign: "center",
+    fontFamily: FontNames.MouldyCheese,
+    fontSize: 18,
+    letterSpacing: 0.3,
+  },
   container: {
     flexDirection: "row",
     marginTop: 12,

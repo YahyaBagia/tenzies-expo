@@ -1,22 +1,19 @@
-import { View, Dimensions, StyleSheet } from "react-native";
-import { Text } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
 
-import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
+import Utils from "@/src/common/Utils";
+import { Colors } from "@/src/common/Const";
 
 import ScoresModal from "@/src/modals/ScoresModal";
 import SettingsModal from "@/src/modals/SettingsModal";
-
-import Utils from "@/src/common/Utils";
-import { Colors, FontNames } from "@/src/common/Const";
 
 import Dice from "@/src/components/Dice";
 import GameHeader from "@/src/components/GameHeader";
 import GameFooter from "@/src/components/GameFooter";
 import GameButton from "@/src/components/GameButton";
+import ConfettiShower from "@/src/components/ConfettiShower";
 import StickyTopButton from "@/src/components/StickyTopButton";
 
 import useGameController from "@/src/controllers/GameController";
-import ConfettiShower from "@/src/components/ConfettiShower";
 
 const Main = () => {
   const {
@@ -74,21 +71,12 @@ const Main = () => {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <View style={styles.innerContainer}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.title}>Tenzies</Text>
-          <Text style={styles.instructions}>
-            Roll until all dice are the same.{"\n"}Click each die to freeze it
-            at its current value between rolls.
-            {isRunningOnMobileDevice === false &&
-              "\nPress Space Bar (⎵) to roll the dices."}
-          </Text>
-          <GameHeader
-            tHours={tHours}
-            tMinutes={tMinutes}
-            tSeconds={tSeconds}
-            noOfRolls={noOfRolls}
-          />
-        </View>
+        <GameHeader
+          tHours={tHours}
+          tMinutes={tMinutes}
+          tSeconds={tSeconds}
+          noOfRolls={noOfRolls}
+        />
 
         <View style={styles.diceContainer}>
           {GetDiceElements().map((dices, i) => (
@@ -140,22 +128,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     justifyContent: "center",
     width: "90%",
-  },
-  headerContainer: {
-    margin: 12,
-    alignItems: "center",
-  },
-  title: {
-    textAlign: "center",
-    fontFamily: FontNames.MouldyCheese,
-    fontSize: 44,
-    letterSpacing: 5,
-  },
-  instructions: {
-    textAlign: "center",
-    fontFamily: FontNames.MouldyCheese,
-    fontSize: 18,
-    letterSpacing: 0.3,
   },
   diceContainer: {
     alignItems: "center",
