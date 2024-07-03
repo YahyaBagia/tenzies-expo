@@ -1,6 +1,6 @@
 import { View, Dimensions, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
-import ConfettiCannon from "react-native-confetti-cannon";
+
 import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
 
 import ScoresModal from "@/src/modals/ScoresModal";
@@ -16,6 +16,7 @@ import GameButton from "@/src/components/GameButton";
 import StickyTopButton from "@/src/components/StickyTopButton";
 
 import useGameController from "@/src/controllers/GameController";
+import ConfettiShower from "@/src/components/ConfettiShower";
 
 const Main = () => {
   const {
@@ -43,11 +44,6 @@ const Main = () => {
     tHours,
     tMinutes,
     tSeconds,
-
-    // confettis
-    leftConfettiRef,
-    rightConfettiRef,
-    startConfettis,
   } = useGameController();
 
   if (Utils.IsOnWeb()) {
@@ -110,26 +106,7 @@ const Main = () => {
 
         <GameFooter missedDices={missedDices} missedRolls={missedRolls} />
       </View>
-      {CheckIfAllDicesAreTheSame() && (
-        <>
-          <ConfettiCannon
-            count={50}
-            origin={{ x: 100, y: 100 }}
-            autoStart={true}
-            ref={leftConfettiRef}
-            onAnimationEnd={startConfettis}
-            fadeOut={true}
-          />
-          <ConfettiCannon
-            count={50}
-            origin={{ x: Dimensions.get("window").width - 100, y: 100 }}
-            autoStart={true}
-            ref={rightConfettiRef}
-            onAnimationEnd={startConfettis}
-            fadeOut={true}
-          />
-        </>
-      )}
+      <ConfettiShower visible={CheckIfAllDicesAreTheSame()} />
       <StickyTopButton
         icon={"cog"}
         onPress={() => setIsSettingsVisible(true)}

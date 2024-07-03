@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Dimensions, LayoutChangeEvent } from "react-native";
-import ConfettiCannon from "react-native-confetti-cannon";
 import { useStopwatch } from "react-timer-hook";
 import * as Crypto from "expo-crypto";
 
@@ -9,9 +8,8 @@ import { Sounds } from "@/src/common/Const";
 import ScoreUtils from "@/src/common/ScoreUtils";
 import useUpdateEffect from "@/src/common/CustomHooks";
 import { useGlobalState } from "@/src/common/GlobalState";
-import { DiceNumber } from "@/src/components/Dice/types";
 
-type ConfettiCannonRef = React.ElementRef<typeof ConfettiCannon>;
+import { DiceNumber } from "@/src/components/Dice/types";
 
 interface IDice {
   title: DiceNumber;
@@ -47,9 +45,6 @@ const useGameController = () => {
   const [missedRolls, setMissedRolls] = useState(0);
   const [missedDices, setMissedDices] = useState(0);
 
-  const leftConfettiRef = useRef<ConfettiCannonRef>(null);
-  const rightConfettiRef = useRef<ConfettiCannonRef>(null);
-
   const getSelectedDices = () => allDices.filter((die) => die.isSelected);
 
   useEffect(() => {
@@ -63,7 +58,6 @@ const useGameController = () => {
       startTimer();
     } else if (CheckIfAllDicesAreTheSame()) {
       Utils.PlaySound(Sounds.Game_Finished);
-      startConfettis();
       pauseTimer();
       ScoreUtils.AddNewScore(
         { tHours, tMinutes, tSeconds },
@@ -86,11 +80,6 @@ const useGameController = () => {
   };
 
   const resetNoOfRolls = () => setNoOfRolls(0);
-
-  const startConfettis = () => {
-    leftConfettiRef.current?.start();
-    rightConfettiRef.current?.start();
-  };
 
   const onPress_NewGame_or_Roll = () => {
     CheckIfAllDicesAreTheSame() ? onPressNewGame() : onPressRoll();
@@ -192,11 +181,6 @@ const useGameController = () => {
     tHours,
     tMinutes,
     tSeconds,
-
-    // confettis
-    leftConfettiRef,
-    rightConfettiRef,
-    startConfettis,
   };
 };
 
