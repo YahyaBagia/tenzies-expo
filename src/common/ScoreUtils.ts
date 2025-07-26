@@ -2,8 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Crypto from "expo-crypto";
 
 import Utils, { ITimerData } from "./Utils";
-import { DiceNumber, DiceType } from "../components/Dice/types";
-import { GetDiceType } from "./GlobalState";
+import { DiceNumber, DiceType } from "@/src/components/Dice/types";
+import { useGlobalStore } from "./GlobalStore";
 
 const SCORE_STORAGE_KEY = "SCORES";
 
@@ -31,7 +31,7 @@ export default class ScoreUtils {
     // diceType: DiceType,
     noOfDices: number
   ): Promise<void> => {
-    const diceType = GetDiceType();
+    const diceType = useGlobalStore.getState().diceType;
     const scoreObj: ScoreObject = {
       id: Crypto.randomUUID(),
       time,

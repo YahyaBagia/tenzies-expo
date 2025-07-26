@@ -6,9 +6,9 @@ import DiceDigit from "./DiceDigit";
 import DiceSymbol from "./DiceSymbol";
 
 import { Colors } from "@/src/common/Const";
-import { useGlobalState } from "@/src/common/GlobalState";
 
 import { DiceNumber, DiceType, DiceTypes } from "./types";
+import { useGlobalStore, useShallow } from "@/src/common/GlobalStore";
 
 interface DiceProps {
   title: DiceNumber;
@@ -31,7 +31,7 @@ const Dice: React.FC<DiceProps> = ({
   isCompact = false,
   diceType,
 }) => {
-  const [g_diceType] = useGlobalState("diceType");
+  const [g_diceType] = useGlobalStore(useShallow((s) => [s.diceType]));
   if (!diceType) diceType = g_diceType;
 
   const diceSize = isCompact ? COMPACT_SIZE : REGULAR_SIZE;

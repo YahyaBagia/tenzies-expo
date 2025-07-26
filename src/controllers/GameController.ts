@@ -7,7 +7,7 @@ import Utils from "@/src/common/Utils";
 import { Sounds } from "@/src/common/Const";
 import ScoreUtils from "@/src/common/ScoreUtils";
 import useUpdateEffect from "@/src/common/CustomHooks";
-import { useGlobalState } from "@/src/common/GlobalState";
+import { useGlobalStore, useShallow } from "@/src/common/GlobalStore";
 
 import { DiceNumber } from "@/src/components/Dice/types";
 
@@ -18,7 +18,7 @@ interface IDice {
 }
 
 const useGameController = () => {
-  const [noOfDices] = useGlobalState("noOfDices");
+  const [noOfDices] = useGlobalStore(useShallow((s) => [s.noOfDices]));
 
   const CreateDice = (): IDice => ({
     title: `${Math.ceil(Math.random() * 6)}` as DiceNumber,

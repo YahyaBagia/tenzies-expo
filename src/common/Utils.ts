@@ -1,7 +1,6 @@
 import { Platform } from "react-native";
-import { AVPlaybackSource, Audio } from "expo-av";
-
-import { getGlobalState } from "./GlobalState";
+import { AudioSource, createAudioPlayer } from "expo-audio";
+import { useGlobalStore } from "./GlobalStore";
 
 export interface ITimerData {
   tHours: number;
@@ -25,12 +24,16 @@ export default class Utils {
     });
   };
 
-  static PlaySound = async (audio: AVPlaybackSource): Promise<void> => {
+  static PlaySound = async (audioSource: AudioSource): Promise<void> => {
     try {
-      const soundEnabled = getGlobalState("soundEnabled");
+      const soundEnabled = useGlobalStore.getState().soundEnabled;
       if (!soundEnabled) return;
-      const { sound } = await Audio.Sound.createAsync(audio);
-      await sound.playAsync();
+      const player = createAudioPlayer(audioSource);
+      player.play();
+      player.addListener(
+        "playbackStatusUpdate",
+        (status) => status.didJustFinish && player.release()
+      );
     } catch {}
   };
 

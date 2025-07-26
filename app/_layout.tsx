@@ -5,10 +5,10 @@ import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { setAudioModeAsync } from "expo-audio";
 
-import Utils from "@/src/common/Utils";
 import { Colors, FontNames, Images } from "@/src/common/Const";
-import { LoadLocallyCachedState } from "@/src/common/GlobalState";
+import { useIsGlobalStoreReady } from "@/src/hooks/useIsGlobalStoreReady";
 
 const theme = {
   ...DefaultTheme,
@@ -22,27 +22,25 @@ const theme = {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+setAudioModeAsync({
+  playsInSilentMode: true,
+  allowsRecording: false,
+});
+
 export default function RootLayout() {
   const [fontLoaded] = useFonts({
     [FontNames.MouldyCheese]: require("@/assets/Fonts/MouldyCheeseRegular.ttf"),
   });
-  const [isGlobalStateLoaded, setIsGlobalStateLoaded] = useState(false);
+
+  const isGlobalStateReady = useIsGlobalStoreReady();
 
   useEffect(() => {
-    (async () => {
-      await LoadLocallyCachedState();
-      await Utils.Sleep(1);
-      setIsGlobalStateLoaded(true);
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (fontLoaded) {
+    if (fontLoaded && isGlobalStateReady) {
       SplashScreen.hideAsync();
     }
-  }, [fontLoaded, isGlobalStateLoaded]);
+  }, [fontLoaded, isGlobalStateReady]);
 
-  if (!fontLoaded || !isGlobalStateLoaded)
+  if (!fontLoaded || !isGlobalStateReady)
     return (
       <View style={styles.splashContainer}>
         <Image

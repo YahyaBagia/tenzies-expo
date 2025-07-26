@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import {
-  Dialog,
-  Portal,
-  Text,
-  Title,
-  TouchableRipple,
-} from "react-native-paper";
+import { Dialog, Portal, Text, TouchableRipple } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import ScoreItem from "./components/ScoreItem";
@@ -16,7 +10,6 @@ import Dice from "@/src/components/Dice";
 import Separator from "@/src/components/Separator";
 
 import { Colors, FontNames } from "@/src/common/Const";
-import { useGlobalState } from "@/src/common/GlobalState";
 import ScoreUtils, { ScoreObject } from "@/src/common/ScoreUtils";
 
 const arrNoOfDices = [4, 6, 8, 10, 12];
@@ -54,7 +47,9 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
       <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.dialog}>
         <Dialog.ScrollArea style={styles.scrollArea}>
           <View style={styles.titleContainer}>
-            <Title style={styles.title}>Scoreboard</Title>
+            <Text variant="titleMedium" style={styles.title}>
+              Scoreboard
+            </Text>
           </View>
           <Separator />
           <View style={styles.segmentedControlContainer}>

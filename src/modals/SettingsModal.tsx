@@ -1,19 +1,15 @@
 import { View, StyleSheet } from "react-native";
-import { Dialog, Portal, Text, Title } from "react-native-paper";
+import { Dialog, Portal, Text } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "@/src/components/Dice";
 import Separator from "@/src/components/Separator";
+import { DiceType, DiceTypes } from "@/src/components/Dice/types";
+
 import StepperButton from "./components/StepperButton";
 
 import { Colors, FontNames } from "@/src/common/Const";
-import {
-  useGlobalState,
-  SetNoOfDices,
-  SetDiceType,
-  SetSoundEnabled,
-} from "@/src/common/GlobalState";
-import { DiceTypes } from "../components/Dice/types";
+import { useGlobalStore, useShallow } from "@/src/common/GlobalStore";
 
 interface ISettingsModalProps {
   isVisible: boolean;
@@ -24,16 +20,24 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
   isVisible,
   onDismiss,
 }) => {
-  const [noOfDices] = useGlobalState("noOfDices");
-  const [diceType] = useGlobalState("diceType");
-  const [soundEnabled] = useGlobalState("soundEnabled");
+  const [diceType, noOfDices, soundEnabled] = useGlobalStore(
+    useShallow((s) => [s.diceType, s.noOfDices, s.soundEnabled])
+  );
 
   const decreaseNoOfDices = () => {
-    if (noOfDices > 4) SetNoOfDices(noOfDices - 2);
+    if (noOfDices > 4) useGlobalStore.getState().setNoOfDices(noOfDices - 2);
   };
 
   const increaseNoOfDices = () => {
-    if (noOfDices < 12) SetNoOfDices(noOfDices + 2);
+    if (noOfDices < 12) useGlobalStore.getState().setNoOfDices(noOfDices + 2);
+  };
+
+  const setSoundEnabled = (enabled: boolean) => {
+    useGlobalStore.getState().setSoundEnabled(enabled);
+  };
+
+  const setDiceType = (diceType: DiceType) => {
+    useGlobalStore.getState().setDiceType(diceType);
   };
 
   return (
@@ -41,7 +45,9 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
       <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.dialog}>
         <Dialog.Content>
           <View style={styles.titleContainer}>
-            <Title style={styles.title}>Settings</Title>
+            <Text variant="titleMedium" style={styles.title}>
+              Settings
+            </Text>
           </View>
           <Separator />
           <View style={styles.row}>
@@ -53,7 +59,7 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
                     <Dice
                       title={"5"}
                       isSelected={diceType === dT}
-                      onPress={() => SetDiceType(dT)}
+                      onPress={() => setDiceType(dT)}
                       isCompact
                       diceType={dT}
                     />
@@ -72,7 +78,7 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
               <SegmentedControlTab
                 values={["On", "Off"]}
                 selectedIndex={soundEnabled ? 0 : 1}
-                onTabPress={(i) => SetSoundEnabled(i === 0)}
+                onTabPress={(i) => setSoundEnabled(i === 0)}
                 borderRadius={12}
                 tabStyle={styles.segmentedControlTab}
                 tabsContainerStyle={styles.segmentedControlTabsContainer}
