@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Dimensions, LayoutChangeEvent } from "react-native";
 import { useStopwatch } from "react-timer-hook";
 import * as Crypto from "expo-crypto";
@@ -26,7 +26,9 @@ const useGameController = () => {
     id: Crypto.randomUUID(),
   });
 
-  const GenerateNewDices = () => [...Array(noOfDices)].map(() => CreateDice());
+  const GenerateNewDices = useCallback(() => {
+    return [...Array(noOfDices)].map(() => CreateDice());
+  }, [noOfDices]);
 
   const {
     seconds: tSeconds,
@@ -45,6 +47,14 @@ const useGameController = () => {
   const [missedRolls, setMissedRolls] = useState(0);
   const [missedDices, setMissedDices] = useState(0);
 
+  // Derived state: true if all dice are selected and have the same number
+  const isGameComplete = useMemo(() => {
+    const allSelected = allDices.every((die) => die.isSelected);
+    const firstValue = allDices[0].title;
+    const allSame = allDices.every((die) => die.title === firstValue);
+    return allSelected && allSame;
+  }, [allDices]);
+
   const getSelectedDices = () => allDices.filter((die) => die.isSelected);
 
   useEffect(() => {
@@ -56,7 +66,7 @@ const useGameController = () => {
     } else if (selectedDices.length === 1) {
       resetTimer();
       startTimer();
-    } else if (CheckIfAllDicesAreTheSame()) {
+    } else if (isGameComplete) {
       Utils.PlaySound(Sounds.Game_Finished);
       pauseTimer();
       ScoreUtils.AddNewScore(
@@ -69,6 +79,8 @@ const useGameController = () => {
   }, [allDices]);
 
   useUpdateEffect(() => {
+    setMissedRolls(0);
+    setMissedDices(0);
     setAllDices(GenerateNewDices());
     pauseTimer();
     resetTimer();
@@ -82,7 +94,7 @@ const useGameController = () => {
   const resetNoOfRolls = () => setNoOfRolls(0);
 
   const onPress_NewGame_or_Roll = () => {
-    CheckIfAllDicesAreTheSame() ? onPressNewGame() : onPressRoll();
+    isGameComplete ? onPressNewGame() : onPressRoll();
   };
 
   const onPressRoll = () => {
@@ -96,8 +108,10 @@ const useGameController = () => {
         ({ title: t, isSelected }) => t === title && !isSelected
       );
       if (foundUnselected.length > 0) {
-        setMissedRolls(missedRolls + 1);
-        setMissedDices(missedDices + foundUnselected.length);
+        setMissedRolls((prevMissedRolls) => prevMissedRolls + 1);
+        setMissedDices(
+          (prevMissedDices) => prevMissedDices + foundUnselected.length
+        );
       }
     }
     setAllDices((oldDice) =>
@@ -112,25 +126,19 @@ const useGameController = () => {
     resetTimer();
   };
 
-  const onPressDie = ({ id, title }: IDice) => {
-    if (CheckIfAllDicesAreTheSame()) return;
+  const onPressDice = (dice: IDice) => {
+    if (isGameComplete || !isValidDiceSelection(dice)) return;
     Utils.PlaySound(Sounds.Dice_Click);
-    const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
-    if (firstSelectedDice) {
-      if (title !== firstSelectedDice.title) return;
-    }
     setAllDices((oldDices) =>
       oldDices.map((die) =>
-        die.id === id ? { ...die, isSelected: !die.isSelected } : die
+        die.id === dice.id ? { ...die, isSelected: !die.isSelected } : die
       )
     );
   };
 
-  const CheckIfAllDicesAreTheSame = () => {
-    const allSelected = allDices.every((die) => die.isSelected);
-    const firstValue = allDices[0].title;
-    const allSame = allDices.every((die) => die.title === firstValue);
-    return allSelected && allSame;
+  const isValidDiceSelection = (dice: IDice): boolean => {
+    const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
+    return !firstSelectedDice || firstSelectedDice.title === dice.title;
   };
 
   const onLayoutRootView = (layoutChangeEvent: LayoutChangeEvent) => {
@@ -165,13 +173,13 @@ const useGameController = () => {
 
     // events
     onPress_NewGame_or_Roll,
-    onPressDie,
+    onPressDice,
     onLayoutRootView,
 
     // methods
-    CheckIfAllDicesAreTheSame,
+    isGameComplete,
 
-    // visibility
+    // modal visibility
     isScoresVisible,
     setIsScoresVisible,
     isSettingsVisible,

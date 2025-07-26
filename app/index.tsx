@@ -25,11 +25,11 @@ const Main = () => {
 
     // events
     onPress_NewGame_or_Roll,
-    onPressDie,
+    onPressDice,
     onLayoutRootView,
 
     // methods
-    CheckIfAllDicesAreTheSame,
+    isGameComplete,
 
     // visibility
     isScoresVisible,
@@ -54,7 +54,7 @@ const Main = () => {
         key={id}
         title={title}
         isSelected={isSelected}
-        onPress={() => onPressDie(allDices[index])}
+        onPress={() => onPressDice(allDices[index])}
       />
     ));
 
@@ -87,14 +87,14 @@ const Main = () => {
         </View>
 
         <GameButton
-          title={CheckIfAllDicesAreTheSame() ? "New Game" : "ROLL"}
+          title={isGameComplete ? "New Game" : "ROLL"}
           onPress={onPress_NewGame_or_Roll}
-          invertedColors={CheckIfAllDicesAreTheSame()}
+          invertedColors={isGameComplete}
         />
 
         <GameFooter missedDices={missedDices} missedRolls={missedRolls} />
       </View>
-      <ConfettiShower visible={CheckIfAllDicesAreTheSame()} />
+      <ConfettiShower visible={isGameComplete} />
       <StickyTopButton
         icon={"cog"}
         onPress={() => setIsSettingsVisible(true)}

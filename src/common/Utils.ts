@@ -24,17 +24,19 @@ export default class Utils {
     });
   };
 
-  static PlaySound = async (audioSource: AudioSource): Promise<void> => {
-    try {
-      const soundEnabled = useGlobalStore.getState().soundEnabled;
-      if (!soundEnabled) return;
-      const player = createAudioPlayer(audioSource);
-      player.play();
-      player.addListener(
-        "playbackStatusUpdate",
-        (status) => status.didJustFinish && player.release()
-      );
-    } catch {}
+  static PlaySound = (audioSource: AudioSource): void => {
+    const soundEnabled = useGlobalStore.getState().soundEnabled;
+    if (!soundEnabled) return;
+    const player = createAudioPlayer(audioSource, 100);
+    player.play();
+
+    // Not working
+    // player.addListener("playbackStatusUpdate", (status) => {
+    //   if (status.didJustFinish) player.remove();
+    // });
+
+    const removeAfter = 3; // player.duration isn't working as it is set to NaN
+    Utils.Sleep(removeAfter).then(() => player.remove());
   };
 
   static IsOnWeb = (): boolean => Platform.OS === "web";
