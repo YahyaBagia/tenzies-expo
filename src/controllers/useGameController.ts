@@ -1,34 +1,23 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Dimensions, LayoutChangeEvent } from "react-native";
 import { useStopwatch } from "react-timer-hook";
-import * as Crypto from "expo-crypto";
 
 import Utils from "@/src/common/Utils";
 import { Sounds } from "@/src/common/Const";
 import ScoreUtils from "@/src/common/ScoreUtils";
-import useUpdateEffect from "@/src/common/CustomHooks";
+import useUpdateEffect from "@/src/hooks/useUpdateEffect";
 import { useGlobalStore, useShallow } from "@/src/common/GlobalStore";
+import {
+  generateDices,
+  rollDices,
+  toggleDiceSelection,
+  checkIfAllSelectedDicesAreTheSame,
+} from "@/src/common/DiceLogic";
 
-import { DiceNumber } from "@/src/components/Dice/types";
+import { IDice } from "@/src/components/Dice/types";
 
-interface IDice {
-  title: DiceNumber;
-  isSelected: boolean;
-  id: string;
-}
-
-const useGameController = () => {
+export const useGameController = () => {
   const [noOfDices] = useGlobalStore(useShallow((s) => [s.noOfDices]));
-
-  const CreateDice = (): IDice => ({
-    title: `${Math.ceil(Math.random() * 6)}` as DiceNumber,
-    isSelected: false,
-    id: Crypto.randomUUID(),
-  });
-
-  const GenerateNewDices = useCallback(() => {
-    return [...Array(noOfDices)].map(() => CreateDice());
-  }, [noOfDices]);
 
   const {
     seconds: tSeconds,
@@ -40,19 +29,18 @@ const useGameController = () => {
   } = useStopwatch({});
 
   const [noOfRows, setNoOfRows] = useState(2);
-  const [allDices, setAllDices] = useState(GenerateNewDices());
+
+  const [allDices, setAllDices] = useState<IDice[]>(generateDices(noOfDices));
   const [noOfRolls, setNoOfRolls] = useState(0);
-  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  const [isScoresVisible, setIsScoresVisible] = useState(false);
+
   const [missedRolls, setMissedRolls] = useState(0);
   const [missedDices, setMissedDices] = useState(0);
 
-  // Derived state: true if all dice are selected and have the same number
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const [isScoresVisible, setIsScoresVisible] = useState(false);
+
   const isGameComplete = useMemo(() => {
-    const allSelected = allDices.every((die) => die.isSelected);
-    const firstValue = allDices[0].title;
-    const allSame = allDices.every((die) => die.title === firstValue);
-    return allSelected && allSame;
+    return checkIfAllSelectedDicesAreTheSame(allDices);
   }, [allDices]);
 
   const getSelectedDices = () => allDices.filter((die) => die.isSelected);
@@ -81,14 +69,14 @@ const useGameController = () => {
   useUpdateEffect(() => {
     setMissedRolls(0);
     setMissedDices(0);
-    setAllDices(GenerateNewDices());
+    setAllDices(generateDices(noOfDices));
     pauseTimer();
     resetTimer();
     calculateNoOfRows();
   }, [noOfDices]);
 
   const increaseNoOfRolls = () => {
-    setNoOfRolls((oldNoOfRolls) => oldNoOfRolls + 1);
+    setNoOfRolls((old) => old + 1);
   };
 
   const resetNoOfRolls = () => setNoOfRolls(0);
@@ -100,45 +88,39 @@ const useGameController = () => {
   const onPressRoll = () => {
     Utils.PlaySound(Sounds.Roll_Dice);
     const selectedDices = getSelectedDices();
+
     if (selectedDices.length > 0) {
       increaseNoOfRolls();
 
       const { title } = selectedDices[0];
-      const foundUnselected = allDices.filter(
+      const missed = allDices.filter(
         ({ title: t, isSelected }) => t === title && !isSelected
       );
-      if (foundUnselected.length > 0) {
-        setMissedRolls((prevMissedRolls) => prevMissedRolls + 1);
-        setMissedDices(
-          (prevMissedDices) => prevMissedDices + foundUnselected.length
-        );
+      if (missed.length > 0) {
+        setMissedRolls((prev) => prev + 1);
+        setMissedDices((prev) => prev + missed.length);
       }
     }
-    setAllDices((oldDice) =>
-      oldDice.map((die) => (die.isSelected ? die : CreateDice()))
-    );
+
+    setAllDices((prev) => rollDices(prev));
   };
 
   const onPressNewGame = () => {
     setMissedRolls(0);
     setMissedDices(0);
-    setAllDices(GenerateNewDices());
+    setAllDices(generateDices(noOfDices));
     resetTimer();
   };
 
   const onPressDice = (dice: IDice) => {
     if (isGameComplete || !isValidDiceSelection(dice)) return;
     Utils.PlaySound(Sounds.Dice_Click);
-    setAllDices((oldDices) =>
-      oldDices.map((die) =>
-        die.id === dice.id ? { ...die, isSelected: !die.isSelected } : die
-      )
-    );
+    setAllDices((prev) => toggleDiceSelection(prev, dice.id));
   };
 
   const isValidDiceSelection = (dice: IDice): boolean => {
-    const [firstSelectedDice] = allDices.filter(({ isSelected }) => isSelected);
-    return !firstSelectedDice || firstSelectedDice.title === dice.title;
+    const [firstSelected] = allDices.filter((d) => d.isSelected);
+    return !firstSelected || firstSelected.title === dice.title;
   };
 
   const onLayoutRootView = (layoutChangeEvent: LayoutChangeEvent) => {
@@ -148,11 +130,7 @@ const useGameController = () => {
 
   const calculateNoOfRows = (width = Dimensions.get("window").width) => {
     if (noOfDices === 10) {
-      if (width <= 480) {
-        setNoOfRows(5);
-      } else {
-        setNoOfRows(2);
-      }
+      setNoOfRows(width <= 480 ? 5 : 2);
       return;
     }
     if (noOfDices === 4 || noOfDices === 6) {
@@ -191,5 +169,3 @@ const useGameController = () => {
     tSeconds,
   };
 };
-
-export default useGameController;

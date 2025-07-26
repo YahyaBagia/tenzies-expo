@@ -13,7 +13,7 @@ import GameButton from "@/src/components/GameButton";
 import ConfettiShower from "@/src/components/ConfettiShower";
 import StickyTopButton from "@/src/components/StickyTopButton";
 
-import useGameController from "@/src/controllers/GameController";
+import { useGameController } from "@/src/controllers/useGameController";
 
 const Main = () => {
   const {
