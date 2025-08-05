@@ -45,7 +45,7 @@ export const useGameController = () => {
     return checkIfAllSelectedDicesAreTheSame(allDices);
   }, [allDices]);
 
-  const getSelectedDices = () => allDices.filter((die) => die.isSelected);
+  const getSelectedDices = () => allDices.filter((dice) => dice.isSelected);
 
   useEffect(() => {
     const selectedDices = getSelectedDices();

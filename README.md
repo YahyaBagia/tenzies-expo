@@ -2,7 +2,7 @@
     <h1 align="center">⭐ Tenzies ⭐</h1>
 </p>
 
-<p align="center">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+<p align="center">Roll until all dice are the same. Click each dice to freeze it at its current value between rolls.</p>
 <p align="center">Try it out on your <a href="https://yahyabagia.github.io/tenzies-expo/" target="_blank">browser 🌐 </a> &nbsp;/&nbsp;<a href="https://expo.dev/@yahyabagia/tenzies-expo" target="_blank">mobile device 📱</a>.</p>
 
 <p align="center">

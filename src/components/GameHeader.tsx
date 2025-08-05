@@ -21,7 +21,7 @@ const GameHeader: React.FC<IGameHeaderProps> = ({
     <View style={styles.headerContainer}>
       <Text style={styles.title}>Tenzies</Text>
       <Text style={styles.instructions}>
-        Roll until all dice are the same.{"\n"}Click each die to freeze it at
+        Roll until all dice are the same.{"\n"}Click each dice to freeze it at
         its current value between rolls.
         {isRunningOnMobileDevice === false &&
           "\nPress Space Bar (⎵) to roll the dices."}
