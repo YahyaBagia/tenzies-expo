@@ -4,16 +4,16 @@ import { Text } from "react-native-paper";
 import { FontNames } from "@/src/common/Const";
 
 interface DiceDigitProps {
-  title: string;
+  number: string;
   isCompact: boolean;
 }
 
-const DiceDigit: React.FC<DiceDigitProps> = ({ title, isCompact }) => {
+const DiceDigit: React.FC<DiceDigitProps> = ({ number, isCompact }) => {
   const styleToUse = isCompact ? styles.compactText : styles.regularText;
 
   return (
     <Text style={[styles.baseText, styleToUse]} selectable={false}>
-      {title}
+      {number}
     </Text>
   );
 };

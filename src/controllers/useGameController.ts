@@ -14,7 +14,7 @@ import {
   checkIfAllSelectedDicesAreTheSame,
 } from "@/src/common/DiceLogic";
 
-import { IDice } from "@/src/components/Dice/types";
+import { IDiceData } from "@/src/components/Dice/types";
 
 export const useGameController = () => {
   const [noOfDices] = useGlobalStore(useShallow((s) => [s.noOfDices]));
@@ -30,7 +30,9 @@ export const useGameController = () => {
 
   const [noOfRows, setNoOfRows] = useState(2);
 
-  const [allDices, setAllDices] = useState<IDice[]>(generateDices(noOfDices));
+  const [allDices, setAllDices] = useState<IDiceData[]>(
+    generateDices(noOfDices)
+  );
   const [noOfRolls, setNoOfRolls] = useState(0);
 
   const [missedRolls, setMissedRolls] = useState(0);
@@ -60,7 +62,7 @@ export const useGameController = () => {
       ScoreUtils.AddNewScore(
         { tHours, tMinutes, tSeconds },
         noOfRolls,
-        selectedDices[0].title,
+        selectedDices[0].number,
         noOfDices
       );
     }
@@ -79,7 +81,11 @@ export const useGameController = () => {
     setNoOfRolls((old) => old + 1);
   };
 
-  const resetNoOfRolls = () => setNoOfRolls(0);
+  const resetNoOfRolls = () => {
+    setNoOfRolls(0);
+    setMissedDices(0);
+    setMissedRolls(0);
+  };
 
   const onPress_NewGame_or_Roll = () => {
     isGameComplete ? onPressNewGame() : onPressRoll();
@@ -92,9 +98,9 @@ export const useGameController = () => {
     if (selectedDices.length > 0) {
       increaseNoOfRolls();
 
-      const { title } = selectedDices[0];
+      const { number } = selectedDices[0];
       const missed = allDices.filter(
-        ({ title: t, isSelected }) => t === title && !isSelected
+        ({ number: n, isSelected }) => n === number && !isSelected
       );
       if (missed.length > 0) {
         setMissedRolls((prev) => prev + 1);
@@ -112,15 +118,15 @@ export const useGameController = () => {
     resetTimer();
   };
 
-  const onPressDice = (dice: IDice) => {
+  const onPressDice = (dice: IDiceData) => {
     if (isGameComplete || !isValidDiceSelection(dice)) return;
     Utils.PlaySound(Sounds.Dice_Click);
     setAllDices((prev) => toggleDiceSelection(prev, dice.id));
   };
 
-  const isValidDiceSelection = (dice: IDice): boolean => {
+  const isValidDiceSelection = (dice: IDiceData): boolean => {
     const [firstSelected] = allDices.filter((d) => d.isSelected);
-    return !firstSelected || firstSelected.title === dice.title;
+    return !firstSelected || firstSelected.number === dice.number;
   };
 
   const onLayoutRootView = (layoutChangeEvent: LayoutChangeEvent) => {

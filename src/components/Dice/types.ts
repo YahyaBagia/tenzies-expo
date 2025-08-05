@@ -1,11 +1,13 @@
-export const DiceTypes = ["Digit", "Symbol"] as const;
+export type TDiceType = "Digit" | "Symbol";
+
+export const DiceTypes: TDiceType[] = ["Digit", "Symbol"] as const;
 
 export type DiceType = (typeof DiceTypes)[number];
 
 export type DiceNumber = "1" | "2" | "3" | "4" | "5" | "6";
 
-export interface IDice {
-  title: DiceNumber;
+export interface IDiceData {
+  number: DiceNumber;
   isSelected: boolean;
   id: string;
 }

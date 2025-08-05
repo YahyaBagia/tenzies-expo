@@ -11,11 +11,13 @@ interface GlobalStore {
   noOfDices: number;
   soundEnabled: boolean;
   diceType: DiceType;
+  animateDices: boolean;
 
   // Updaters
   setNoOfDices: (noOfDices: number) => void;
   setSoundEnabled: (soundEnabled: boolean) => void;
   setDiceType: (diceType: DiceType) => void;
+  setAnimateDices: (animateDices: boolean) => void;
 
   // Persistence
   isReady: boolean;
@@ -31,11 +33,13 @@ export const useGlobalStore = create<GlobalStore>()(
         noOfDices: 12,
         soundEnabled: true,
         diceType: DiceTypes[0],
+        animateDices: true,
 
         // Setters
         setNoOfDices: (noOfDices) => set({ noOfDices }),
         setSoundEnabled: (soundEnabled) => set({ soundEnabled }),
         setDiceType: (diceType) => set({ diceType }),
+        setAnimateDices: (animateDices) => set({ animateDices }),
 
         // Persistence
         isReady: false,
@@ -49,6 +53,7 @@ export const useGlobalStore = create<GlobalStore>()(
             noOfDices: state.noOfDices,
             soundEnabled: state.soundEnabled,
             diceType: state.diceType,
+            animateDices: state.animateDices,
             // isReady omitted because it is just a flag
           };
         },

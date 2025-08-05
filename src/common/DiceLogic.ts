@@ -1,4 +1,4 @@
-import { IDice, DiceNumber } from "@/src/components/Dice/types";
+import { IDiceData, DiceNumber } from "@/src/components/Dice/types";
 
 /**
  * Utility to generate a random DiceNumber ("1" to "6").
@@ -15,10 +15,10 @@ export const generateRandomDiceTitle = (): DiceNumber => {
  * @param count - Number of dice to generate
  * @returns An array of dice with random titles
  */
-export const generateDices = (count: number): IDice[] => {
+export const generateDices = (count: number): IDiceData[] => {
   return Array.from({ length: count }, (_, index) => ({
     id: `${index}-${Date.now()}`,
-    title: generateRandomDiceTitle(),
+    number: generateRandomDiceTitle(),
     isSelected: false,
   }));
 };
@@ -29,13 +29,13 @@ export const generateDices = (count: number): IDice[] => {
  * @param dices - Current array of dice
  * @returns A new array with unselected dice updated
  */
-export const rollDices = (dices: IDice[]): IDice[] => {
+export const rollDices = (dices: IDiceData[]): IDiceData[] => {
   return dices.map((dice) =>
     dice.isSelected
       ? dice
       : {
           ...dice,
-          title: generateRandomDiceTitle(),
+          number: generateRandomDiceTitle(),
         }
   );
 };
@@ -47,7 +47,10 @@ export const rollDices = (dices: IDice[]): IDice[] => {
  * @param id - Dice ID to toggle
  * @returns Updated dice array
  */
-export const toggleDiceSelection = (dices: IDice[], id: string): IDice[] => {
+export const toggleDiceSelection = (
+  dices: IDiceData[],
+  id: string
+): IDiceData[] => {
   return dices.map((dice) =>
     dice.id === id ? { ...dice, isSelected: !dice.isSelected } : dice
   );
@@ -59,12 +62,14 @@ export const toggleDiceSelection = (dices: IDice[], id: string): IDice[] => {
  * @param dices - Current dice array
  * @returns True if game is complete (all selected and same value)
  */
-export const checkIfAllSelectedDicesAreTheSame = (dices: IDice[]): boolean => {
+export const checkIfAllSelectedDicesAreTheSame = (
+  dices: IDiceData[]
+): boolean => {
   if (dices.length === 0) return false;
 
   const allSelected = dices.every((dice) => dice.isSelected);
-  const firstValue = dices[0].title;
-  const allSameValue = dices.every((dice) => dice.title === firstValue);
+  const firstValue = dices[0].number;
+  const allSameValue = dices.every((dice) => dice.number === firstValue);
 
   return allSelected && allSameValue;
 };

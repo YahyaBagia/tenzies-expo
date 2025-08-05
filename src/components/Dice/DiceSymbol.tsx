@@ -4,7 +4,7 @@ import DiceDot from "./DiceDot";
 import { DiceFaceConfig, DiceNumber } from "./types";
 
 interface DiceSymbolProps {
-  title: DiceNumber;
+  number: DiceNumber;
   isCompact: boolean;
 }
 
@@ -52,12 +52,12 @@ const DiceFace: React.FC<{ config: DiceFaceConfig; size: number }> = ({
   </>
 );
 
-const DiceSymbol: React.FC<DiceSymbolProps> = ({ title, isCompact }) => {
+const DiceSymbol: React.FC<DiceSymbolProps> = ({ number, isCompact }) => {
   const size = isCompact ? COMPACT_SIZE : REGULAR_SIZE;
 
   return (
     <View style={styles.container}>
-      <DiceFace config={diceFaceConfigs[title]} size={size} />
+      <DiceFace config={diceFaceConfigs[number]} size={size} />
     </View>
   );
 };

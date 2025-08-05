@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Text, TouchableRipple } from "react-native-paper";
 
 import { Colors, FontNames } from "@/src/common/Const";
@@ -7,51 +7,46 @@ interface GameButtonProps {
   title: string;
   onPress: () => void;
   invertedColors?: boolean;
+  testID?: string;
 }
 
 const GameButton: React.FC<GameButtonProps> = ({
   title,
   onPress,
   invertedColors = false,
+  testID,
 }) => {
   return (
-    <View style={styles.container}>
-      <TouchableRipple
+    <TouchableRipple
+      testID={testID}
+      style={[
+        styles.button,
+        {
+          backgroundColor: invertedColors ? Colors.Highlight : Colors.ButtonBG,
+          borderColor: invertedColors ? Colors.ButtonBG : "transparent",
+        },
+      ]}
+      onPress={onPress}
+    >
+      <Text
         style={[
-          styles.button,
-          {
-            backgroundColor: invertedColors
-              ? Colors.Highlight
-              : Colors.ButtonBG,
-            borderColor: invertedColors ? Colors.ButtonBG : "transparent",
-          },
+          styles.buttonText,
+          { color: invertedColors ? Colors.ButtonBG : "white" },
         ]}
-        onPress={onPress}
+        selectable={false}
       >
-        <Text
-          style={[
-            styles.buttonText,
-            { color: invertedColors ? Colors.ButtonBG : "white" },
-          ]}
-          selectable={false}
-        >
-          {title}
-        </Text>
-      </TouchableRipple>
-    </View>
+        {title}
+      </Text>
+    </TouchableRipple>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    overflow: "hidden",
-    borderRadius: 12,
+  button: {
+    alignSelf: "center",
     marginTop: 12,
     width: "100%",
     maxWidth: 615,
-    alignSelf: "center",
-  },
-  button: {
     borderRadius: 12,
     borderWidth: 3,
     height: 60,

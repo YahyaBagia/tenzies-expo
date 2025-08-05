@@ -23,7 +23,15 @@ const ScoreItem: React.FC<IScoreItemProps> = ({ score, index }) => {
       <ScoreItemText value={timeTaken} />
       <ScoreItemText value={`${noOfRolls}`} />
       <View style={styles.diceContainer}>
-        <Dice diceType={diceType} isCompact title={selectedDice} />
+        <Dice
+          diceType={diceType}
+          isCompact
+          diceData={{
+            id: selectedDice,
+            number: selectedDice,
+            isSelected: false,
+          }}
+        />
       </View>
     </View>
   );

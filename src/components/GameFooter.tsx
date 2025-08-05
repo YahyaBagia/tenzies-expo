@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 
-import { FontNames } from "../common/Const";
+import { FontNames } from "@/src/common/Const";
 
 interface IGameFooterProps {
   missedDices: number;

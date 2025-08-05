@@ -15,7 +15,7 @@ import StickyTopButton from "@/src/components/StickyTopButton";
 
 import { useGameController } from "@/src/controllers/useGameController";
 
-const Main = () => {
+const index = () => {
   const {
     allDices,
     noOfRows,
@@ -49,12 +49,12 @@ const Main = () => {
   }
 
   const GetDiceElements = () => {
-    const diceElements = allDices.map(({ id, title, isSelected }, index) => (
+    const diceElements = allDices.map((dice, index) => (
       <Dice
-        key={id}
-        title={title}
-        isSelected={isSelected}
+        key={dice.id}
+        diceData={dice}
         onPress={() => onPressDice(allDices[index])}
+        noOfRolls={noOfRolls}
       />
     ));
 
@@ -87,7 +87,7 @@ const Main = () => {
         </View>
 
         <GameButton
-          title={isGameComplete ? "New Game" : "ROLL"}
+          title={isGameComplete ? "NEW GAME" : "ROLL"}
           onPress={onPress_NewGame_or_Roll}
           invertedColors={isGameComplete}
         />
@@ -96,11 +96,13 @@ const Main = () => {
       </View>
       <ConfettiShower visible={isGameComplete} />
       <StickyTopButton
+        title="Settings"
         icon={"cog"}
         onPress={() => setIsSettingsVisible(true)}
         position="left"
       />
       <StickyTopButton
+        title="Scores"
         icon={"trophy"}
         onPress={() => setIsScoresVisible(true)}
         position="right"
@@ -135,11 +137,11 @@ const styles = StyleSheet.create({
   diceRow: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 8,
+    marginVertical: 12,
     minWidth: Utils.IsOnWeb() ? 400 : "100%",
     maxWidth: 650,
     width: "100%",
   },
 });
 
-export default Main;
+export default index;

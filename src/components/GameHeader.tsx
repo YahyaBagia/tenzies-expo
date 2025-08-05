@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import { isMobile as isRunningOnMobileDevice } from "react-device-detect";
 
-import Utils from "../common/Utils";
-import { FontNames } from "../common/Const";
+import Utils from "@/src/common/Utils";
+import { FontNames } from "@/src/common/Const";
 
 interface IGameHeaderProps {
   tHours: number;

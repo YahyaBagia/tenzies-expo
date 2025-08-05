@@ -53,7 +53,10 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
           </View>
           <Separator />
           <View style={styles.segmentedControlContainer}>
-            <Dice title={"5"} isCompact />
+            <Dice
+              diceData={{ id: "5", number: "5", isSelected: false }}
+              isCompact
+            />
             <View style={styles.segmentedControlWrapper}>
               <SegmentedControlTab
                 values={arrNoOfDices.map((v) => `${v}`)}
@@ -65,7 +68,10 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
                 tabTextStyle={styles.segmentedControlTabText}
               />
             </View>
-            <Dice title={"5"} isCompact />
+            <Dice
+              diceData={{ id: "5", number: "5", isSelected: false }}
+              isCompact
+            />
           </View>
           <FlatList
             data={scores.filter(

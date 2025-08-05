@@ -20,16 +20,16 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
   isVisible,
   onDismiss,
 }) => {
-  const [diceType, noOfDices, soundEnabled] = useGlobalStore(
-    useShallow((s) => [s.diceType, s.noOfDices, s.soundEnabled])
+  const [diceType, noOfDices, soundEnabled, animateDices] = useGlobalStore(
+    useShallow((s) => [s.diceType, s.noOfDices, s.soundEnabled, s.animateDices])
   );
 
   const decreaseNoOfDices = () => {
-    if (noOfDices > 4) useGlobalStore.getState().setNoOfDices(noOfDices - 2);
+    if (noOfDices > 4) useGlobalStore.getState().setNoOfDices(noOfDices - 1);
   };
 
   const increaseNoOfDices = () => {
-    if (noOfDices < 12) useGlobalStore.getState().setNoOfDices(noOfDices + 2);
+    if (noOfDices < 12) useGlobalStore.getState().setNoOfDices(noOfDices + 1);
   };
 
   const setSoundEnabled = (enabled: boolean) => {
@@ -38,6 +38,10 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
 
   const setDiceType = (diceType: DiceType) => {
     useGlobalStore.getState().setDiceType(diceType);
+  };
+
+  const setAnimateDices = (animateDices: boolean) => {
+    useGlobalStore.getState().setAnimateDices(animateDices);
   };
 
   return (
@@ -57,8 +61,11 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
                 {DiceTypes.map((dT, i) => (
                   <View key={dT} style={styles.diceWrapper}>
                     <Dice
-                      title={"5"}
-                      isSelected={diceType === dT}
+                      diceData={{
+                        id: dT,
+                        number: "5",
+                        isSelected: diceType === dT,
+                      }}
                       onPress={() => setDiceType(dT)}
                       isCompact
                       diceType={dT}
@@ -96,6 +103,22 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
                 <Text style={styles.stepperText}>{noOfDices}</Text>
                 <StepperButton icon={"plus"} onPress={increaseNoOfDices} />
               </View>
+            </View>
+          </View>
+          <Separator />
+          <View style={styles.row}>
+            <Text style={styles.label}>Animate Dices</Text>
+            <View style={styles.segmentedControlContainer}>
+              <SegmentedControlTab
+                values={["On", "Off"]}
+                selectedIndex={animateDices ? 0 : 1}
+                onTabPress={(i) => setAnimateDices(i === 0)}
+                borderRadius={12}
+                tabStyle={styles.segmentedControlTab}
+                tabsContainerStyle={styles.segmentedControlTabsContainer}
+                activeTabStyle={styles.segmentedControlActiveTab}
+                tabTextStyle={styles.segmentedControlTabText}
+              />
             </View>
           </View>
         </Dialog.Content>
