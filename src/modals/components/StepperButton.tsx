@@ -7,9 +7,14 @@ import { Colors } from "@/src/common/Const";
 interface IStepperButtonProps {
   icon: IconSource;
   onPress: () => void;
+  testID?: string;
 }
 
-const StepperButton: React.FC<IStepperButtonProps> = ({ icon, onPress }) => (
+const StepperButton: React.FC<IStepperButtonProps> = ({
+  icon,
+  onPress,
+  testID,
+}) => (
   <View style={styles.container}>
     <IconButton
       icon={icon}
@@ -17,6 +22,7 @@ const StepperButton: React.FC<IStepperButtonProps> = ({ icon, onPress }) => (
       onPress={onPress}
       style={styles.iconButton}
       iconColor={Colors.Highlight}
+      testID={testID}
     />
   </View>
 );

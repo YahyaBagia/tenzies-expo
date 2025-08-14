@@ -1,0 +1,42 @@
+# Maestro E2E testing: Check UI elements correctly visible/rendering upon app launch
+
+# Run this test suite by running `maestro test .maestro/ui-checks.yaml`
+
+appId: "host.exp.exponent"
+---
+# Launch Tenzies inside Expo Go app
+- openLink: "exp://192.168.31.200:8081"
+
+# Wait for the game to load
+- assertVisible: "Tenzies"
+
+# Verify all elements are visible
+- assertVisible: { id: "scores-button" }
+- assertVisible: { id: "settings-button" }
+- assertVisible: { id: "GameHeader" }
+- assertVisible: { id: "GameFooter" }
+- assertVisible: { id: "roll-button" }
+
+# Verify if unselected dices are visible
+- assertVisible: { id: "dice-[0-6]+-unselected" }
+
+# Verify modals are not visible
+- assertNotVisible: { id: "modal-scores" }
+- assertNotVisible: { id: "modal-settings" }
+
+# Verify scores modal visibility upon button clicks
+- tapOn: { id: "scores-button" }
+- assertVisible: { id: "modal-scores" }
+- assertVisible: "Scoreboard"
+- assertVisible: "Clear Scoreboard"
+- assertVisible: { id: "button-close-modal-scores" }
+- tapOn: { id: "button-close-modal-scores" }
+- assertNotVisible: { id: "modal-scores" }
+
+# Verify settings modal visibility upon button clicks
+- tapOn: { id: "settings-button" }
+- assertVisible: { id: "modal-settings" }
+- assertVisible: "Settings"
+- assertVisible: { id: "button-close-modal-settings" }
+- tapOn: { id: "button-close-modal-settings" }
+- assertNotVisible: { id: "modal-settings" }

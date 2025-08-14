@@ -18,7 +18,7 @@ const GameHeader: React.FC<IGameHeaderProps> = ({
   noOfRolls,
 }) => {
   return (
-    <View style={styles.headerContainer}>
+    <View style={styles.headerContainer} testID="GameHeader">
       <Text style={styles.title}>Tenzies</Text>
       <Text style={styles.instructions}>
         Roll until all dice are the same.{"\n"}Click each dice to freeze it at

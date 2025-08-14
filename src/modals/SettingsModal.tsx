@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { Dialog, Portal, Text } from "react-native-paper";
+import { Dialog, IconButton, Portal, Text } from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Dice from "@/src/components/Dice";
@@ -46,10 +46,15 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
 
   return (
     <Portal>
-      <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.dialog}>
+      <Dialog
+        visible={isVisible}
+        onDismiss={onDismiss}
+        style={styles.dialog}
+        testID="modal-settings"
+      >
         <Dialog.Content>
           <View style={styles.titleContainer}>
-            <Text variant="titleMedium" style={styles.title}>
+            <Text variant="displaySmall" style={styles.title}>
               Settings
             </Text>
           </View>
@@ -99,9 +104,17 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
             <Text style={styles.label}>No. of Dices</Text>
             <View style={styles.stepperContainer}>
               <View style={styles.stepper}>
-                <StepperButton icon={"minus"} onPress={decreaseNoOfDices} />
+                <StepperButton
+                  icon={"minus"}
+                  onPress={decreaseNoOfDices}
+                  testID="button-decrease-no-of-dices"
+                />
                 <Text style={styles.stepperText}>{noOfDices}</Text>
-                <StepperButton icon={"plus"} onPress={increaseNoOfDices} />
+                <StepperButton
+                  icon={"plus"}
+                  onPress={increaseNoOfDices}
+                  testID="button-increase-no-of-dices"
+                />
               </View>
             </View>
           </View>
@@ -122,6 +135,14 @@ const SettingsModal: React.FC<ISettingsModalProps> = ({
             </View>
           </View>
         </Dialog.Content>
+        <IconButton
+          size={28}
+          icon={"close"}
+          onPress={onDismiss}
+          containerColor={Colors.Highlight}
+          style={styles.closeButton}
+          testID="button-close-modal-settings"
+        />
       </Dialog>
     </Portal>
   );
@@ -140,7 +161,6 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 26,
     fontFamily: FontNames.MouldyCheese,
     textAlign: "center",
     marginBottom: 12,
@@ -205,6 +225,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontFamily: FontNames.MouldyCheese,
     fontSize: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 12,
+    right: 12,
   },
 });
 

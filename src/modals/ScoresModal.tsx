@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Dialog, Portal, Text, TouchableRipple } from "react-native-paper";
+import {
+  Dialog,
+  IconButton,
+  Portal,
+  Text,
+  TouchableRipple,
+} from "react-native-paper";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import ScoreItem from "./components/ScoreItem";
@@ -44,10 +50,15 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
 
   return (
     <Portal>
-      <Dialog visible={isVisible} onDismiss={onDismiss} style={styles.dialog}>
+      <Dialog
+        visible={isVisible}
+        onDismiss={onDismiss}
+        style={styles.dialog}
+        testID="modal-scores"
+      >
         <Dialog.ScrollArea style={styles.scrollArea}>
           <View style={styles.titleContainer}>
-            <Text variant="titleMedium" style={styles.title}>
+            <Text variant="displaySmall" style={styles.title}>
               Scoreboard
             </Text>
           </View>
@@ -101,6 +112,14 @@ const ScoresModal: React.FC<IScoresModalProps> = ({ isVisible, onDismiss }) => {
             </TouchableRipple>
           </View>
         </Dialog.Actions>
+        <IconButton
+          size={28}
+          icon={"close"}
+          onPress={onDismiss}
+          containerColor={Colors.Highlight}
+          style={styles.closeButton}
+          testID="button-close-modal-scores"
+        />
       </Dialog>
     </Portal>
   );
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 26,
+    // fontSize: 26,
     fontFamily: FontNames.MouldyCheese,
     textAlign: "center",
   },
@@ -174,6 +193,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 22,
     fontFamily: FontNames.MouldyCheese,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 12,
+    right: 12,
   },
 });
 

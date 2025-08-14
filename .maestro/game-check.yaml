@@ -1,0 +1,38 @@
+# Maestro E2E testing: Check game logic
+
+# Run this test suite by running `maestro test .maestro/game-check.yaml`
+
+appId: "host.exp.exponent"
+---
+# Launch Tenzies inside Expo Go app
+- openLink: "exp://192.168.31.200:8081"
+
+# Wait for the game to load
+- assertVisible: "Tenzies"
+
+# Decrease no. of dices to it's minimum value from the settings modal
+- tapOn: { id: "settings-button" }
+- assertVisible: { id: "modal-settings" }
+- repeat:
+    times: 12
+    commands:
+      - tapOn: { id: "button-decrease-no-of-dices" }
+- tapOn: { id: "button-close-modal-settings" }
+- assertNotVisible: { id: "modal-settings" }
+
+# Verify game logic
+- assertVisible: "Roll"
+- tapOn: { id: "roll-button" }
+
+# Tap on dice with value 6 to freeze them
+- repeat:
+    times: 30
+    commands:
+      - tapOn: { id: "roll-button", optional: true }
+      - tapOn: { id: "dice-6-unselected", optional: true }
+      - tapOn: { id: "dice-6-unselected", optional: true }
+      - tapOn: { id: "dice-6-unselected", optional: true }
+      - tapOn: { id: "dice-6-unselected", optional: true }
+
+# Assuming that all the dices with value 6 are frozen, check if the game is complete
+- assertVisible: "NEW GAME"

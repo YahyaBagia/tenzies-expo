@@ -12,7 +12,7 @@ const GameFooter: React.FC<IGameFooterProps> = ({
   missedRolls,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="GameFooter">
       <View style={styles.row}>
         <Text style={styles.mainText}>
           {missedDices}

@@ -38,7 +38,7 @@ const SPRING_CONFIG = {
 } as const;
 
 const Dice: React.FC<DiceProps> = ({
-  diceData: { id, number, isSelected },
+  diceData: { number, isSelected },
   onPress,
   isCompact = false,
   diceType,
@@ -93,7 +93,7 @@ const Dice: React.FC<DiceProps> = ({
   return (
     <Animated.View style={[styles.container, animatedStyle]}>
       <TouchableRipple
-        testID={`dice-${id}`}
+        testID={`dice-${number}-${isSelected ? "selected" : "unselected"}`}
         onPress={onPress}
         onHoverIn={onHoverIn}
         onHoverOut={onHoverOut}

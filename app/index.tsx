@@ -90,6 +90,7 @@ const index = () => {
           title={isGameComplete ? "NEW GAME" : "ROLL"}
           onPress={onPress_NewGame_or_Roll}
           invertedColors={isGameComplete}
+          testID={isGameComplete ? "new-game-button" : "roll-button"}
         />
 
         <GameFooter missedDices={missedDices} missedRolls={missedRolls} />
@@ -100,12 +101,14 @@ const index = () => {
         icon={"cog"}
         onPress={() => setIsSettingsVisible(true)}
         position="left"
+        testID="settings-button"
       />
       <StickyTopButton
         title="Scores"
         icon={"trophy"}
         onPress={() => setIsScoresVisible(true)}
         position="right"
+        testID="scores-button"
       />
       <ScoresModal
         isVisible={isScoresVisible}
